@@ -157,6 +157,10 @@ app.use(express.json({ limit: '250kb' }));
 
 app.use(
   helmet({
+    // COOP / Origin-Agent-Cluster only have effect on potentially trustworthy origins (HTTPS/localhost).
+    // Disabling avoids confusing console warnings when the site is served over plain http on an IP.
+    crossOriginOpenerPolicy: false,
+    originAgentCluster: false,
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       useDefaults: true,
