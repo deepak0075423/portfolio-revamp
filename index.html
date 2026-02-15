@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepak Pandey | Software Developer</title>
+  <link rel="icon" href="public/favicon.svg" type="image/svg+xml" />
+  <link rel="shortcut icon" href="public/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <!-- Three.js Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-text">
+        <span>&lt;</span>Deepak Pandey<span>/&gt;</span>
+      </div>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <a href="#hero">&lt;DP/&gt;</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#hero" class="nav-link active" data-section="hero">Home</a></li>
+      <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+      <li><a href="#techstack" class="nav-link" data-section="techstack">Tech Stack</a></li>
+      <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+      <li><a href="#casestudies" class="nav-link" data-section="casestudies">Case Studies</a></li>
+      <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
+      <li><a href="#certifications" class="nav-link" data-section="certifications">Certifications</a></li>
+      <li><a href="#blog" class="nav-link" data-section="blog">Blog</a></li>
+      <!-- <li><a href="#github" class="nav-link" data-section="github">GitHub</a></li> -->
+      <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="#hero" class="mobile-link">Home</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#techstack" class="mobile-link">Tech Stack</a></li>
+      <li><a href="#projects" class="mobile-link">Projects</a></li>
+      <li><a href="#casestudies" class="mobile-link">Case Studies</a></li>
+      <li><a href="#experience" class="mobile-link">Experience</a></li>
+      <li><a href="#certifications" class="mobile-link">Certifications</a></li>
+      <li><a href="#blog" class="mobile-link">Blog</a></li>
+      <!-- <li><a href="#github" class="mobile-link">GitHub</a></li> -->
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress"></div>
+
+  <main>
+    <!-- ===== 1. HERO SECTION ===== -->
+    <section id="hero">
+      <canvas id="hero-globe-canvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-greeting">
+          <span class="line"></span>
+          <span class="greeting-text">Hello, I'm</span>
+        </div>
+        <h1 class="hero-name glitch" data-text="Deepak Pandey">
+          <span class="first-name">Deepak</span>
+          <span class="last-name">Pandey</span>
+        </h1>
+        <div class="hero-title-wrapper">
+          <span class="hero-title-prefix">&gt; </span>
+          <span class="hero-title" id="typed-text"></span>
+          <span class="typed-cursor">|</span>
+        </div>
+        <p class="hero-description">
+          Building high-impact digital platforms for banking, HRMS &amp; enterprise clients with ~3 years of experience in full-stack development &amp; Agile delivery.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">
+            <span>View My Work</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#contact" class="btn btn-outline">
+            <span>Get In Touch</span>
+          </a>
+        </div>
+        <div class="hero-socials">
+          <a href="https://www.linkedin.com/in/deepak-pandey-51735b213" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/deepak0075423" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://www.drupal.org/u/deepak5423" target="_blank" aria-label="Drupal"><i class="fab fa-drupal"></i></a>
+          <a href="mailto:ppdd5423@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <span>Scroll Down</span>
+      </div>
+    </section>
+
+    <!-- ===== 2. ABOUT SECTION ===== -->
+    <section id="about">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">01.</span> About Me
+        </h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              I'm a <strong>Software Developer</strong> with around 3 years of experience leading delivery and developing digital platforms for <strong>banking, HRMS, and enterprise</strong> clients. I specialize in building scalable web solutions using <strong>Drupal, PHP, Python, and JavaScript</strong>.
+            </p>
+            <p>
+              Currently at <strong>Giglabz</strong>, I'm leading planning and execution of Finobank's internal and external platforms, managing backend development and cross-functional collaboration. Previously at <strong>Innoraft Solutions</strong>, I managed deliverables for major projects including HCLTech and HCL Foundation.
+            </p>
+            <p>
+              I'm skilled in <strong>Agile/Scrum methodologies</strong>, sprint planning, risk management, and delivering high-impact web solutions. I hold a <strong>B.Tech in Computer Science</strong> from Guru Nanak Institute of Technology, Kolkata, and have published patents and research papers.
+            </p>
+            <div class="about-info-grid">
+              <div class="info-item">
+                <span class="info-label">Name</span>
+                <span class="info-value">Deepak Pandey</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Email</span>
+                <span class="info-value">ppdd5423@gmail.com</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Phone</span>
+                <span class="info-value">+91 7595963707</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Location</span>
+                <span class="info-value">Mumbai, India</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Degree</span>
+                <span class="info-value">B.Tech, CSE</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">University</span>
+                <span class="info-value">GNIT, Kolkata</span>
+              </div>
+            </div>
+            <a href="CV - Deepak Pandey.pdf" class="btn btn-primary" download>
+              <span>Download Resume</span>
+              <i class="fas fa-download"></i>
+            </a>
+          </div>
+          <div class="about-stats">
+            <div class="stat-card" data-tilt>
+              <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
+              <div class="stat-number" data-count="3">0</div>
+              <div class="stat-suffix">+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card" data-tilt>
+              <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+              <div class="stat-number" data-count="6">0</div>
+              <div class="stat-suffix">+</div>
+              <div class="stat-label">Live Projects</div>
+            </div>
+            <div class="stat-card" data-tilt>
+              <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+              <div class="stat-number" data-count="5">0</div>
+              <div class="stat-suffix">+</div>
+              <div class="stat-label">Awards Won</div>
+            </div>
+            <div class="stat-card" data-tilt>
+              <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+              <div class="stat-number" data-count="2">0</div>
+              <div class="stat-suffix"></div>
+              <div class="stat-label">Patents Published</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. TECH STACK SECTION ===== -->
+    <section id="techstack">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">02.</span> Tech Stack
+        </h2>
+        <div class="techstack-grid">
+          <!-- Languages -->
+          <div class="tech-category" data-tilt>
+            <div class="tech-category-icon"><i class="fas fa-code"></i></div>
+            <h3>Languages</h3>
+            <div class="tech-items">
+              <div class="tech-item"><i class="fab fa-php"></i><span>PHP</span></div>
+              <div class="tech-item"><i class="fab fa-python"></i><span>Python</span></div>
+              <div class="tech-item"><i class="fab fa-js-square"></i><span>JavaScript</span></div>
+              <div class="tech-item"><i class="fas fa-database"></i><span>SQL</span></div>
+            </div>
+          </div>
+          <!-- Frameworks & CMS -->
+          <div class="tech-category" data-tilt>
+            <div class="tech-category-icon"><i class="fas fa-layer-group"></i></div>
+            <h3>Frameworks & CMS</h3>
+            <div class="tech-items">
+              <div class="tech-item"><i class="fab fa-drupal"></i><span>Drupal</span></div>
+              <div class="tech-item"><i class="fab fa-laravel"></i><span>LEMP Stack</span></div>
+              <div class="tech-item"><i class="fas fa-palette"></i><span>Twig</span></div>
+              <div class="tech-item"><i class="fab fa-jquery"></i><span>jQuery</span></div>
+            </div>
+          </div>
+          <!-- Frontend -->
+          <div class="tech-category" data-tilt>
+            <div class="tech-category-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3>Frontend</h3>
+            <div class="tech-items">
+              <div class="tech-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
+              <div class="tech-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+              <div class="tech-item"><i class="fas fa-bolt"></i><span>Ajax</span></div>
+              <div class="tech-item"><i class="fas fa-mobile-alt"></i><span>Responsive</span></div>
+            </div>
+          </div>
+          <!-- Database & Server -->
+          <div class="tech-category" data-tilt>
+            <div class="tech-category-icon"><i class="fas fa-server"></i></div>
+            <h3>Database & Server</h3>
+            <div class="tech-items">
+              <div class="tech-item"><i class="fas fa-database"></i><span>MySQL</span></div>
+              <div class="tech-item"><i class="fab fa-linux"></i><span>Linux</span></div>
+              <div class="tech-item"><i class="fas fa-terminal"></i><span>Nginx</span></div>
+              <div class="tech-item"><i class="fas fa-cloud"></i><span>REST APIs</span></div>
+            </div>
+          </div>
+          <!-- Dev Tools -->
+          <div class="tech-category" data-tilt>
+            <div class="tech-category-icon"><i class="fas fa-tools"></i></div>
+            <h3>Dev Tools</h3>
+            <div class="tech-items">
+              <div class="tech-item"><i class="fab fa-git-alt"></i><span>Git</span></div>
+              <div class="tech-item"><i class="fas fa-code"></i><span>VS Code</span></div>
+              <div class="tech-item"><i class="fas fa-bug"></i><span>Xdebug</span></div>
+              <div class="tech-item"><i class="fab fa-docker"></i><span>Docker</span></div>
+            </div>
+          </div>
+          <!-- Methodologies -->
+          <div class="tech-category" data-tilt>
+            <div class="tech-category-icon"><i class="fas fa-tasks"></i></div>
+            <h3>Methodologies</h3>
+            <div class="tech-items">
+              <div class="tech-item"><i class="fas fa-sync-alt"></i><span>Agile</span></div>
+              <div class="tech-item"><i class="fas fa-clipboard-list"></i><span>Scrum</span></div>
+              <div class="tech-item"><i class="fab fa-jira"></i><span>Jira</span></div>
+              <div class="tech-item"><i class="fas fa-chart-line"></i><span>Sprint Planning</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Rotating Skills Sphere -->
+        <div class="skills-sphere-wrapper">
+          <div class="skills-sphere" id="skills-sphere">
+            <span style="--i:1">Drupal</span>
+            <span style="--i:2">PHP</span>
+            <span style="--i:3">JavaScript</span>
+            <span style="--i:4">Python</span>
+            <span style="--i:5">MySQL</span>
+            <span style="--i:6">HTML/CSS</span>
+            <span style="--i:7">jQuery</span>
+            <span style="--i:8">Ajax</span>
+            <span style="--i:9">Git</span>
+            <span style="--i:10">Linux</span>
+            <span style="--i:11">Agile</span>
+            <span style="--i:12">Jira</span>
+            <span style="--i:13">Twig</span>
+            <span style="--i:14">VS Code</span>
+            <span style="--i:15">Scrum</span>
+            <span style="--i:16">LEMP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D Wave Divider -->
+    <div class="wave-divider">
+      <canvas id="wave-canvas"></canvas>
+    </div>
+
+    <!-- ===== 4. FEATURED PROJECTS SECTION ===== -->
+    <section id="projects">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">03.</span> Featured Projects
+        </h2>
+        <div class="project-filter">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="live">Live Projects</button>
+          <button class="filter-btn" data-filter="college">College Projects</button>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card" data-category="live" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-globe"></i></div>
+                <h3>HCLTech</h3>
+                <p>Global IT services and consulting company delivering innovative digital solutions.</p>
+                <div class="project-tech">
+                  <span>Drupal</span><span>Ajax</span><span>Twig</span><span>JS</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>HCLTech</h3>
+                <p>Built and maintained the corporate website for one of the world's largest IT services companies, implementing scalable architecture and optimized performance.</p>
+                <div class="project-links">
+                  <a href="https://www.hcltech.com" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="live" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                <h3>HCL Foundation</h3>
+                <p>CSR arm of HCLTech focused on social development in education, healthcare & community welfare.</p>
+                <div class="project-tech">
+                  <span>Drupal</span><span>Ajax</span><span>CSS</span><span>jQuery</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>HCL Foundation</h3>
+                <p>Drove redesign efforts ensuring scalability, performance, and alignment with client goals for social impact initiatives.</p>
+                <div class="project-links">
+                  <a href="https://www.hclfoundation.org" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="live" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-seedling"></i></div>
+                <h3>HCLTech Grant</h3>
+                <p>Funding initiative supporting innovative projects, startups, and social impact programs.</p>
+                <div class="project-tech">
+                  <span>Drupal</span><span>HTML</span><span>Twig</span><span>JS</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>HCLTech Grant</h3>
+                <p>Built the platform empowering communities and businesses to drive sustainable growth and positive change through grants.</p>
+                <div class="project-links">
+                  <a href="https://www.hcltechgrant.com" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="live" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-car"></i></div>
+                <h3>Carrohub</h3>
+                <p>Dubai-based car marketplace simplifying buying and selling with inspections & fair pricing.</p>
+                <div class="project-tech">
+                  <span>Drupal</span><span>Ajax</span><span>jQuery</span><span>CSS</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>Carrohub</h3>
+                <p>Coordinated with remote teams and ensured seamless feature development for the Dubai-based car transaction marketplace.</p>
+                <div class="project-links">
+                  <a href="https://www.carrohub.com" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="live" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-university"></i></div>
+                <h3>Fino Payments Bank</h3>
+                <p>Indian digital-first bank providing branchless banking & payment services.</p>
+                <div class="project-tech">
+                  <span>Drupal</span><span>Ajax</span><span>Twig</span><span>JS</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>Fino Payments Bank</h3>
+                <p>Oversaw integration workflows, communicated progress with stakeholders, and managed sprint cycles for digital banking platform.</p>
+                <div class="project-links">
+                  <a href="https://www.finobank.com" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="live" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-network-wired"></i></div>
+                <h3>Fintranet</h3>
+                <p>Internal HRMS portal for Finobank managing employee info & workflows.</p>
+                <div class="project-tech">
+                  <span>Drupal</span><span>PHP</span><span>jQuery</span><span>Ajax</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>Fintranet</h3>
+                <p>Managed backend delivery, coordinated team tasks, and ensured timely module deployments for the internal HRMS platform.</p>
+                <div class="project-links">
+                  <span class="project-status"><i class="fas fa-cog fa-spin"></i> Under Development</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="college" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3>VidyaVista</h3>
+                <p>University project sharing platform for students and educators.</p>
+                <div class="project-tech">
+                  <span>Full Stack</span><span>Web App</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>VidyaVista</h3>
+                <p>Built a collaborative platform for university students to share and discover academic projects.</p>
+                <div class="project-links">
+                  <a href="https://github.com/deepak0075423" target="_blank" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="college" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-comments"></i></div>
+                <h3>ChirpChat</h3>
+                <p>Real-time social media application with live messaging.</p>
+                <div class="project-tech">
+                  <span>Real-time</span><span>Social</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>ChirpChat</h3>
+                <p>Developed a real-time social media application with instant messaging and interactive features.</p>
+                <div class="project-links">
+                  <a href="https://github.com/deepak0075423" target="_blank" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="college" data-tilt>
+            <div class="project-card-inner">
+              <div class="project-card-front">
+                <div class="project-icon"><i class="fas fa-robot"></i></div>
+                <h3>AI Chatbot</h3>
+                <p>Python/Streamlit-powered intelligent website assistant.</p>
+                <div class="project-tech">
+                  <span>Python</span><span>Streamlit</span><span>AI</span>
+                </div>
+              </div>
+              <div class="project-card-back">
+                <h3>AI Chatbot</h3>
+                <p>Created an AI-powered chatbot using Python and Streamlit for intelligent website assistance.</p>
+                <div class="project-links">
+                  <a href="https://github.com/deepak0075423" target="_blank" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. ARCHITECTURE / CASE STUDIES SECTION ===== -->
+    <section id="casestudies">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">04.</span> Architecture &amp; Case Studies
+        </h2>
+        <p class="section-subtitle">Deep dives into key projects — challenges, architecture decisions, and impact.</p>
+        <div class="casestudies-grid">
+          <!-- Case Study 1 -->
+          <div class="case-card">
+            <div class="case-header">
+              <div class="case-icon"><i class="fas fa-university"></i></div>
+              <div>
+                <h3>Fino Payments Bank</h3>
+                <span class="case-tag">Digital Banking Platform</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <div class="case-section">
+                <h4><i class="fas fa-crosshairs"></i> Challenge</h4>
+                <p>Build and manage both internal (Fintranet HRMS) and external (finobank.com) digital platforms for a national payments bank with strict compliance requirements.</p>
+              </div>
+              <div class="case-section">
+                <h4><i class="fas fa-project-diagram"></i> Architecture</h4>
+                <div class="case-arch">
+                  <span class="arch-tag">Drupal CMS</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Custom Modules</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">REST APIs</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Python Services</span>
+                </div>
+              </div>
+              <div class="case-section">
+                <h4><i class="fas fa-check-circle"></i> Impact</h4>
+                <ul class="case-impact">
+                  <li>Led sprint planning across 2 concurrent platforms</li>
+                  <li>Built custom Drupal modules for internal workflows</li>
+                  <li>Reduced deployment time by streamlining CI/CD processes</li>
+                  <li>Coordinated cross-functional teams for Python integration</li>
+                </ul>
+              </div>
+            </div>
+            <div class="case-tech-stack">
+              <span>Drupal</span><span>PHP</span><span>Python</span><span>JavaScript</span><span>MySQL</span><span>Git</span>
+            </div>
+          </div>
+
+          <!-- Case Study 2 -->
+          <div class="case-card">
+            <div class="case-header">
+              <div class="case-icon"><i class="fas fa-globe"></i></div>
+              <div>
+                <h3>HCLTech &amp; HCL Foundation</h3>
+                <span class="case-tag">Enterprise Web Platforms</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <div class="case-section">
+                <h4><i class="fas fa-crosshairs"></i> Challenge</h4>
+                <p>Manage multiple high-traffic enterprise websites requiring scalable architecture, content management, and SEO optimization for a Fortune 500 company.</p>
+              </div>
+              <div class="case-section">
+                <h4><i class="fas fa-project-diagram"></i> Architecture</h4>
+                <div class="case-arch">
+                  <span class="arch-tag">LEMP Stack</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Drupal 10</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Twig Templates</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Ajax Frontend</span>
+                </div>
+              </div>
+              <div class="case-section">
+                <h4><i class="fas fa-check-circle"></i> Impact</h4>
+                <ul class="case-impact">
+                  <li>Led redesign improving scalability for HCL Foundation</li>
+                  <li>Managed backend deliverables across 3+ concurrent projects</li>
+                  <li>Integrated Python modules for data processing features</li>
+                  <li>Aligned development sprints with quarterly milestones</li>
+                </ul>
+              </div>
+            </div>
+            <div class="case-tech-stack">
+              <span>Drupal</span><span>LEMP</span><span>Ajax</span><span>Twig</span><span>Python</span><span>jQuery</span>
+            </div>
+          </div>
+
+          <!-- Case Study 3 -->
+          <div class="case-card">
+            <div class="case-header">
+              <div class="case-icon"><i class="fas fa-car"></i></div>
+              <div>
+                <h3>Carrohub</h3>
+                <span class="case-tag">International Marketplace</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <div class="case-section">
+                <h4><i class="fas fa-crosshairs"></i> Challenge</h4>
+                <p>Develop a car transaction marketplace for the Dubai market with vehicle inspection workflows, real-time pricing, and multi-language support.</p>
+              </div>
+              <div class="case-section">
+                <h4><i class="fas fa-project-diagram"></i> Architecture</h4>
+                <div class="case-arch">
+                  <span class="arch-tag">Drupal CMS</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Custom Entities</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">jQuery/Ajax</span>
+                  <span class="arch-arrow"><i class="fas fa-long-arrow-alt-right"></i></span>
+                  <span class="arch-tag">Dynamic UI</span>
+                </div>
+              </div>
+              <div class="case-section">
+                <h4><i class="fas fa-check-circle"></i> Impact</h4>
+                <ul class="case-impact">
+                  <li>Coordinated with remote teams across time zones</li>
+                  <li>Built dynamic vehicle listing and search features</li>
+                  <li>Ensured seamless feature deployment to production</li>
+                  <li>Delivered on aggressive timelines with zero downtime</li>
+                </ul>
+              </div>
+            </div>
+            <div class="case-tech-stack">
+              <span>Drupal</span><span>Ajax</span><span>jQuery</span><span>CSS</span><span>PHP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. EXPERIENCE SECTION ===== -->
+    <section id="experience">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">05.</span> Experience
+        </h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content" data-tilt>
+              <div class="timeline-header">
+                <div>
+                  <h3>Software Developer</h3>
+                  <h4><i class="fas fa-building"></i> Giglabz</h4>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date"><i class="fas fa-calendar-alt"></i> Jul 2025 - Present</span>
+                  <span class="timeline-location"><i class="fas fa-map-marker-alt"></i> Mumbai</span>
+                </div>
+              </div>
+              <ul class="timeline-details">
+                <li>Leading planning and execution of Finobank's internal (Fintranet) and external websites</li>
+                <li>Managing timelines, sprints, and deliverables for backend and full-stack development</li>
+                <li>Built and optimized custom Drupal modules and themes for Finobank's internal workflows</li>
+                <li>Coordinating with cross-functional teams for Python-based feature integration</li>
+                <li>Conducting risk assessments and implementing mitigation strategies</li>
+              </ul>
+              <div class="timeline-tags">
+                <span>Drupal</span><span>PHP</span><span>Python</span><span>JavaScript</span><span>Git</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content" data-tilt>
+              <div class="timeline-header">
+                <div>
+                  <h3>Software Developer</h3>
+                  <h4><i class="fas fa-building"></i> Innoraft Solutions</h4>
+                </div>
+                <div class="timeline-meta">
+                  <span class="timeline-date"><i class="fas fa-calendar-alt"></i> Jan 2023 - May 2025</span>
+                  <span class="timeline-location"><i class="fas fa-map-marker-alt"></i> Kolkata</span>
+                </div>
+              </div>
+              <ul class="timeline-details">
+                <li>Managed backend deliverables for HCLTech, HCL Foundation, and Carrohub</li>
+                <li>Planned development sprints and aligned teams toward project milestones</li>
+                <li>Built full-stack applications using the LEMP stack with strong project ownership</li>
+                <li>Led redesign and scalability improvements for HCL Foundation website</li>
+                <li>Integrated Python modules across multiple client projects with smooth deployment</li>
+              </ul>
+              <div class="timeline-tags">
+                <span>Drupal</span><span>LEMP Stack</span><span>Python</span><span>Ajax</span><span>Twig</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 7. CERTIFICATIONS SECTION ===== -->
+    <section id="certifications">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">06.</span> Certifications &amp; Awards
+        </h2>
+        <div class="certifications-grid">
+          <div class="cert-card" data-tilt>
+            <div class="cert-ribbon">Patent</div>
+            <div class="cert-icon"><i class="fas fa-scroll"></i></div>
+            <h3>ML-Based Traffic Management</h3>
+            <p>Machine Learning Based Intelligent Traffic Management System and its Method</p>
+            <div class="cert-meta">
+              <span><i class="fas fa-building"></i> Indian Patent Office</span>
+              <span><i class="fas fa-calendar-alt"></i> Published</span>
+            </div>
+          </div>
+
+          <div class="cert-card" data-tilt>
+            <div class="cert-ribbon">Patent</div>
+            <div class="cert-icon"><i class="fas fa-scroll"></i></div>
+            <h3>Driver Assistance System</h3>
+            <p>System for Maintaining Traffic Rules for Assisting the Drivers</p>
+            <div class="cert-meta">
+              <span><i class="fas fa-building"></i> Indian Patent Office</span>
+              <span><i class="fas fa-calendar-alt"></i> Published</span>
+            </div>
+          </div>
+
+          <div class="cert-card" data-tilt>
+            <div class="cert-ribbon">Publication</div>
+            <div class="cert-icon"><i class="fas fa-newspaper"></i></div>
+            <h3>Research Papers</h3>
+            <p>Published prototypes 'TechDoc' and 'Our Indian Shop' in IJMTST journal</p>
+            <div class="cert-meta">
+              <span><i class="fas fa-book"></i> IJMTST Journal</span>
+              <span><i class="fas fa-calendar-alt"></i> Published</span>
+            </div>
+          </div>
+
+          <div class="cert-card" data-tilt>
+            <div class="cert-ribbon gold">1st Place</div>
+            <div class="cert-icon"><i class="fas fa-trophy"></i></div>
+            <h3>Samatva Hackathon</h3>
+            <p>Secured 1st position in Intercollege Hackathon Samatva 2021</p>
+            <div class="cert-meta">
+              <span><i class="fas fa-university"></i> Intercollege</span>
+              <span><i class="fas fa-calendar-alt"></i> 2021</span>
+            </div>
+          </div>
+
+          <div class="cert-card" data-tilt>
+            <div class="cert-ribbon">Finalist</div>
+            <div class="cert-icon"><i class="fas fa-medal"></i></div>
+            <h3>MHRD IIC Innovation</h3>
+            <p>Reached final round of MHRD IIC Innovation Contest &amp; JIS Innovation Award</p>
+            <div class="cert-meta">
+              <span><i class="fas fa-award"></i> MHRD</span>
+              <span><i class="fas fa-calendar-alt"></i> 2020</span>
+            </div>
+          </div>
+
+          <div class="cert-card" data-tilt>
+            <div class="cert-ribbon">Semi-Finalist</div>
+            <div class="cert-icon"><i class="fas fa-award"></i></div>
+            <h3>Smart India Hackathon</h3>
+            <p>Qualified the semi-finals in SIH (Smart India Hackathon) 2020</p>
+            <div class="cert-meta">
+              <span><i class="fas fa-flag"></i> National Level</span>
+              <span><i class="fas fa-calendar-alt"></i> 2020</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 8. BLOG SECTION ===== -->
+    <section id="blog">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">07.</span> Blog
+        </h2>
+        <p class="section-subtitle">Thoughts on web development, architecture patterns, and industry practices.</p>
+        <div class="blog-grid">
+          <article class="blog-card" data-tilt>
+            <div class="blog-image">
+              <div class="blog-image-placeholder"><i class="fab fa-drupal"></i></div>
+              <span class="blog-category">Drupal</span>
+            </div>
+            <div class="blog-content">
+              <div class="blog-date"><i class="fas fa-calendar-alt"></i> Jan 2026</div>
+              <h3>Building Custom Drupal Modules: A Practical Guide</h3>
+              <p>How I approach building custom modules for enterprise clients, from planning to deployment, with real-world examples from HCLTech.</p>
+              <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="blog-card" data-tilt>
+            <div class="blog-image">
+              <div class="blog-image-placeholder"><i class="fas fa-sitemap"></i></div>
+              <span class="blog-category">Architecture</span>
+            </div>
+            <div class="blog-content">
+              <div class="blog-date"><i class="fas fa-calendar-alt"></i> Dec 2025</div>
+              <h3>LEMP Stack Architecture for Enterprise CMS</h3>
+              <p>Deep dive into designing scalable LEMP stack architectures for high-traffic Drupal websites serving enterprise clients.</p>
+              <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="blog-card" data-tilt>
+            <div class="blog-image">
+              <div class="blog-image-placeholder"><i class="fas fa-tasks"></i></div>
+              <span class="blog-category">Agile</span>
+            </div>
+            <div class="blog-content">
+              <div class="blog-date"><i class="fas fa-calendar-alt"></i> Nov 2025</div>
+              <h3>Agile Sprint Planning for Web Development Teams</h3>
+              <p>Lessons learned from managing sprints across multiple concurrent projects in fast-paced delivery environments.</p>
+              <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 9. GITHUB SECTION ===== -->
+    <!-- <section id="github">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">08.</span> GitHub
+        </h2>
+        <div class="github-wrapper">
+          <div class="github-profile">
+            <div class="github-avatar">
+              <i class="fab fa-github"></i>
+            </div>
+            <div class="github-info">
+              <h3>deepak0075423</h3>
+              <p>Software Developer | Drupal Expert | Full-Stack Developer</p>
+              <a href="https://github.com/deepak0075423" target="_blank" class="btn btn-outline btn-sm">
+                <i class="fab fa-github"></i> View Profile
+              </a>
+            </div>
+            <div class="github-stats-row">
+              <div class="gh-stat">
+                <i class="fas fa-book"></i>
+                <span class="gh-stat-num">10+</span>
+                <span class="gh-stat-label">Repositories</span>
+              </div>
+              <div class="gh-stat">
+                <i class="fas fa-code-branch"></i>
+                <span class="gh-stat-num">200+</span>
+                <span class="gh-stat-label">Contributions</span>
+              </div>
+              <div class="gh-stat">
+                <i class="fas fa-star"></i>
+                <span class="gh-stat-num">5+</span>
+                <span class="gh-stat-label">Stars</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="github-repos">
+            <h3 class="repos-heading"><i class="fas fa-bookmark"></i> Pinned Repositories</h3>
+            <div class="repos-grid">
+              <a href="https://github.com/deepak0075423" target="_blank" class="repo-card">
+                <div class="repo-header">
+                  <i class="fas fa-book"></i>
+                  <h4>VidyaVista</h4>
+                </div>
+                <p>University project sharing platform for students and educators</p>
+                <div class="repo-footer">
+                  <span class="repo-lang"><span class="lang-dot php"></span> PHP</span>
+                  <span class="repo-stars"><i class="fas fa-star"></i> 2</span>
+                </div>
+              </a>
+
+              <a href="https://github.com/deepak0075423" target="_blank" class="repo-card">
+                <div class="repo-header">
+                  <i class="fas fa-book"></i>
+                  <h4>ChirpChat</h4>
+                </div>
+                <p>Real-time social media application with live messaging features</p>
+                <div class="repo-footer">
+                  <span class="repo-lang"><span class="lang-dot js"></span> JavaScript</span>
+                  <span class="repo-stars"><i class="fas fa-star"></i> 1</span>
+                </div>
+              </a>
+
+              <a href="https://github.com/deepak0075423" target="_blank" class="repo-card">
+                <div class="repo-header">
+                  <i class="fas fa-book"></i>
+                  <h4>AI-Chatbot</h4>
+                </div>
+                <p>Python/Streamlit-powered intelligent website assistant</p>
+                <div class="repo-footer">
+                  <span class="repo-lang"><span class="lang-dot python"></span> Python</span>
+                  <span class="repo-stars"><i class="fas fa-star"></i> 3</span>
+                </div>
+              </a>
+
+              <a href="https://github.com/deepak0075423" target="_blank" class="repo-card">
+                <div class="repo-header">
+                  <i class="fas fa-book"></i>
+                  <h4>portfolio</h4>
+                </div>
+                <p>Personal 3D portfolio website with Three.js and GSAP animations</p>
+                <div class="repo-footer">
+                  <span class="repo-lang"><span class="lang-dot html"></span> HTML</span>
+                  <span class="repo-stars"><i class="fas fa-star"></i> 1</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ===== 10. CONTACT SECTION ===== -->
+    <section id="contact">
+      <div class="section-container">
+        <h2 class="section-title">
+          <span class="title-number">09.</span> Get In Touch
+        </h2>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p class="contact-description">
+              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!
+            </p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <div>
+                  <span class="contact-label">Email</span>
+                  <a href="mailto:ppdd5423@gmail.com">ppdd5423@gmail.com</a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                <div>
+                  <span class="contact-label">Phone</span>
+                  <a href="tel:+917595963707">+91 7595963707</a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                  <span class="contact-label">Location</span>
+                  <span>Mumbai, India</span>
+                </div>
+              </div>
+            </div>
+            <div class="contact-socials">
+              <a href="https://www.linkedin.com/in/deepak-pandey-51735b213" target="_blank" class="social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://github.com/deepak0075423" target="_blank" class="social-link" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://www.drupal.org/u/deepak5423" target="_blank" class="social-link" aria-label="Drupal">
+                <i class="fab fa-drupal"></i>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank" class="social-link" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+          <form class="contact-form" id="contact-form">
+            <div class="form-group">
+              <input type="text" id="name" placeholder=" " required />
+              <label for="name">Your Name</label>
+              <span class="form-line"></span>
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" placeholder=" " required />
+              <label for="email">Your Email</label>
+              <span class="form-line"></span>
+            </div>
+            <div class="form-group">
+              <input type="text" id="subject" placeholder=" " required />
+              <label for="subject">Subject</label>
+              <span class="form-line"></span>
+            </div>
+            <div class="form-group">
+              <textarea id="message" rows="5" placeholder=" " required></textarea>
+              <label for="message">Message</label>
+              <span class="form-line"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-submit">
+              <span>Send Message</span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">&lt;DP/&gt;</div>
+      <p>Designed &amp; Built by Deepak Pandey</p>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/deepak-pandey-51735b213" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/deepak0075423" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.drupal.org/u/deepak5423" target="_blank"><i class="fab fa-drupal"></i></a>
+      </div>
+      <p class="copyright">&copy; 2026 Deepak Pandey. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

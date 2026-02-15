@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin CMS</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/admin.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <%
+    const isEnabled = (id) => {
+      const section = site && site[id];
+      if (!section || typeof section !== 'object') return true;
+      return section.enabled !== false;
+    };
+
+    const contentLinks = [
+      { id: 'hero', label: 'Hero Section', icon: 'fa-wand-magic-sparkles' },
+      { id: 'about', label: 'About', icon: 'fa-user' },
+      { id: 'techstack', label: 'Tech Stack', icon: 'fa-layer-group' },
+      { id: 'projects', label: 'Projects', icon: 'fa-diagram-project' },
+      { id: 'casestudies', label: 'Case Studies', icon: 'fa-sitemap' },
+      { id: 'experience', label: 'Experience', icon: 'fa-briefcase' },
+      { id: 'certifications', label: 'Certifications', icon: 'fa-certificate' },
+      { id: 'blog', label: 'Blog', icon: 'fa-newspaper' },
+      { id: 'github', label: 'GitHub', icon: 'fa-code-branch' },
+      { id: 'contact', label: 'Contact', icon: 'fa-paper-plane' },
+      { id: 'footer', label: 'Footer', icon: 'fa-grip-lines' },
+    ];
+
+    const settingsLinks = [
+      { id: 'meta', label: 'Meta', icon: 'fa-gear' },
+      { id: 'nav', label: 'Navigation', icon: 'fa-compass' },
+      { id: 'raw', label: 'Raw JSON', icon: 'fa-code' },
+    ];
+
+    const pageTitle = {
+      dashboard: 'Dashboard',
+      submissions: 'Submissions',
+      raw: 'Raw Site JSON',
+      nav: 'Navigation (JSON)',
+      meta: 'Meta (JSON)',
+      hero: 'Hero Section',
+      about: 'About',
+      techstack: 'Tech Stack',
+      projects: 'Projects',
+      casestudies: 'Case Studies',
+      experience: 'Experience',
+      certifications: 'Certifications',
+      blog: 'Blog',
+      github: 'GitHub',
+      contact: 'Contact',
+      footer: 'Footer',
+    }[activePage] || 'Dashboard';
+  %>
+
+  <div class="admin-app">
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="name"><%= (site && site.hero) ? `${site.hero.firstName} ${site.hero.lastName}` : 'Admin' %></div>
+        <div class="sub">Content Management</div>
+      </div>
+
+      <nav class="admin-nav">
+        <div class="group-title">Main</div>
+        <a class="<%= activePage === 'dashboard' ? 'active' : '' %>" href="/admin?page=dashboard">
+          <span class="left"><i class="fas fa-gauge"></i><span class="label">Dashboard</span></span>
+        </a>
+        <a class="<%= activePage === 'submissions' ? 'active' : '' %>" href="/admin?page=submissions">
+          <span class="left"><i class="fas fa-inbox"></i><span class="label">Submissions</span></span>
+          <span class="admin-pill"><%= counts ? counts.submissions : 0 %></span>
+        </a>
+
+        <div class="group-title">Content</div>
+        <% contentLinks.forEach((l) => { %>
+          <a class="<%= activePage === l.id ? 'active' : '' %>" href="/admin?page=<%= l.id %>">
+            <span class="left">
+              <i class="fas <%= l.icon.startsWith('fa-') ? l.icon : ('fa-' + l.icon) %>"></i>
+              <span class="label"><%= l.label %></span>
+            </span>
+            <span class="admin-pill <%= isEnabled(l.id) ? 'on' : 'off' %>"><%= isEnabled(l.id) ? 'ON' : 'OFF' %></span>
+          </a>
+        <% }) %>
+
+        <div class="group-title">Settings</div>
+        <% settingsLinks.forEach((l) => { %>
+          <a class="<%= activePage === l.id ? 'active' : '' %>" href="/admin?page=<%= l.id %>">
+            <span class="left"><i class="fas <%= l.icon.startsWith('fa-') ? l.icon : ('fa-' + l.icon) %>"></i><span class="label"><%= l.label %></span></span>
+          </a>
+        <% }) %>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div class="admin-title">
+          <h1><%= pageTitle %></h1>
+          <p>Signed in as <strong><%= user.username %></strong></p>
+        </div>
+
+        <div class="admin-actions">
+          <a class="btn btn-outline" href="/" target="_blank">View Site</a>
+          <form method="post" action="/admin/logout" style="margin:0;">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button type="submit" class="btn btn-outline">Logout</button>
+          </form>
+        </div>
+      </div>
+
+      <% if (saved) { %>
+        <div class="admin-alert">Saved successfully.</div>
+      <% } %>
+      <% if (error) { %>
+        <div class="admin-error"><%= error %></div>
+      <% } %>
+      <% if (missingUsers) { %>
+        <div class="admin-error">No admin user found. Create one locally with <code>npm run create-admin -- admin YourStrongPasswordHere</code>.</div>
+      <% } %>
+
+      <div class="admin-grid">
+        <% if (activePage === 'dashboard') { %>
+          <div class="admin-panel">
+            <h2>Overview</h2>
+            <div class="admin-stats">
+              <div class="admin-stat"><div class="num"><%= counts ? counts.projects : 0 %></div><div class="label">Projects</div></div>
+              <div class="admin-stat"><div class="num"><%= counts ? counts.casestudies : 0 %></div><div class="label">Case Studies</div></div>
+              <div class="admin-stat"><div class="num"><%= counts ? counts.experience : 0 %></div><div class="label">Experience</div></div>
+              <div class="admin-stat"><div class="num"><%= counts ? counts.certifications : 0 %></div><div class="label">Certifications</div></div>
+              <div class="admin-stat"><div class="num"><%= counts ? counts.blogPosts : 0 %></div><div class="label">Blog Posts</div></div>
+              <div class="admin-stat"><div class="num"><%= counts ? counts.submissions : 0 %></div><div class="label">Submissions</div></div>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <div class="admin-row">
+              <h2 style="margin:0;">Recent Submissions</h2>
+              <a class="btn btn-outline btn-sm" href="/admin?page=submissions">View All</a>
+            </div>
+
+            <table class="admin-table" aria-label="Recent submissions">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (!recentSubmissions || recentSubmissions.length === 0) { %>
+                  <tr><td colspan="5" style="color:#a1a1aa;">No submissions yet.</td></tr>
+                <% } else { %>
+                  <% recentSubmissions.forEach((s) => { %>
+                    <tr>
+                      <td><a href="/admin?page=submissions&view=<%= s.id %>"><%= s.name %></a></td>
+                      <td><%= s.email %></td>
+                      <td><%= s.subject %></td>
+                      <td><%= s.status || 'unknown' %></td>
+                      <td><%= s.createdAt ? new Date(s.createdAt).toLocaleString() : '' %></td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+	        <% } else if (activePage === 'submissions') { %>
+	          <div class="admin-panel">
+	            <h2>All Submissions</h2>
+	            <p class="admin-help">Submissions are stored in <code>data/submissions.json</code>.</p>
+
+            <table class="admin-table" aria-label="All submissions">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (!submissions || submissions.length === 0) { %>
+                  <tr><td colspan="5" style="color:#a1a1aa;">No submissions yet.</td></tr>
+                <% } else { %>
+                  <% submissions.forEach((s) => { %>
+                    <tr>
+                      <td><a href="/admin?page=submissions&view=<%= s.id %>"><%= s.name %></a></td>
+                      <td><%= s.email %></td>
+                      <td><%= s.subject %></td>
+                      <td><%= s.status || 'unknown' %></td>
+                      <td><%= s.createdAt ? new Date(s.createdAt).toLocaleString() : '' %></td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+
+	          <% if (selectedSubmission) { %>
+	            <div class="admin-panel">
+	              <h2>Submission</h2>
+              <div class="admin-row" style="align-items:flex-start;">
+                <div class="admin-help">
+                  <div><strong>Name:</strong> <%= selectedSubmission.name %></div>
+                  <div><strong>Email:</strong> <%= selectedSubmission.email %></div>
+                  <div><strong>Subject:</strong> <%= selectedSubmission.subject %></div>
+                  <div><strong>Status:</strong> <%= selectedSubmission.status || 'unknown' %></div>
+                  <div><strong>Date:</strong> <%= selectedSubmission.createdAt ? new Date(selectedSubmission.createdAt).toLocaleString() : '' %></div>
+                </div>
+                <a class="btn btn-outline btn-sm" href="/admin?page=submissions">Close</a>
+              </div>
+	              <div style="margin-top:12px;" class="admin-pre"><%= selectedSubmission.message %></div>
+	            </div>
+	          <% } %>
+	        <% } else if (activePage === 'hero') { %>
+	          <%
+	            const hero = (site && site.hero && typeof site.hero === 'object') ? site.hero : {};
+	            const titles = Array.isArray(hero.titles) ? hero.titles : [];
+	            const ctas = Array.isArray(hero.ctas) ? hero.ctas : [];
+	            const cta1 = ctas[0] || { label: '', href: '', style: 'primary', icon: '' };
+	            const cta2 = ctas[1] || { label: '', href: '', style: 'outline', icon: '' };
+	          %>
+
+	          <div class="admin-panel">
+	            <div class="admin-row">
+	              <h2 style="margin:0;">Hero Section</h2>
+	              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+	            </div>
+
+	            <form class="admin-form" method="post" action="/admin/hero">
+	              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+	              <div class="admin-row">
+	                <label class="admin-switch" for="toggle-hero">
+	                  <input type="hidden" name="enabled" value="0" />
+	                  <input id="toggle-hero" type="checkbox" name="enabled" value="1" <%= isEnabled('hero') ? 'checked' : '' %> />
+	                  <span class="switch-label">Enabled</span>
+	                </label>
+	              </div>
+
+	              <div class="admin-fields">
+	                <div class="admin-field">
+	                  <label for="hero-greeting">Greeting</label>
+	                  <input id="hero-greeting" name="greeting" type="text" value="<%= hero.greeting || '' %>" placeholder="Hello, I'm" />
+	                </div>
+
+	                <div class="admin-field">
+	                  <label>Name</label>
+	                  <div class="admin-split">
+	                    <input name="firstName" type="text" value="<%= hero.firstName || '' %>" placeholder="First name" />
+	                    <input name="lastName" type="text" value="<%= hero.lastName || '' %>" placeholder="Last name" />
+	                  </div>
+	                </div>
+
+	                <div class="admin-field admin-field-full">
+	                  <label for="hero-desc">Description</label>
+	                  <textarea id="hero-desc" name="description" rows="3" class="admin-textarea" placeholder="Short intro / tagline..."><%= hero.description || '' %></textarea>
+	                </div>
+
+	                <div class="admin-field admin-field-full">
+	                  <label for="hero-titles">Titles (one per line)</label>
+	                  <textarea id="hero-titles" name="titles" rows="5" class="admin-textarea" placeholder="Software Developer&#10;Full-Stack Developer"><%= titles.join('\n') %></textarea>
+	                </div>
+
+	                <div class="admin-field">
+	                  <label>CTA 1</label>
+	                  <div class="admin-split">
+	                    <input name="cta1Label" type="text" value="<%= cta1.label || '' %>" placeholder="Button text" />
+	                    <input name="cta1Href" type="text" value="<%= cta1.href || '' %>" placeholder="URL / anchor" />
+	                  </div>
+	                </div>
+
+	                <div class="admin-field">
+	                  <label>CTA 2</label>
+	                  <div class="admin-split">
+	                    <input name="cta2Label" type="text" value="<%= cta2.label || '' %>" placeholder="Button text" />
+	                    <input name="cta2Href" type="text" value="<%= cta2.href || '' %>" placeholder="URL / anchor" />
+	                  </div>
+	                </div>
+
+	                <div class="admin-field admin-field-full">
+	                  <label for="hero-scroll">Scroll Text</label>
+	                  <input id="hero-scroll" name="scrollText" type="text" value="<%= hero.scrollText || '' %>" placeholder="Scroll Down" />
+	                </div>
+	              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=hero">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'about') { %>
+		          <%
+		            const about = (site && site.about && typeof site.about === 'object') ? site.about : {};
+		            const paragraphs = Array.isArray(about.paragraphsHtml) ? about.paragraphsHtml : [];
+		            const info = Array.isArray(about.info) ? about.info : [];
+		            const stats = Array.isArray(about.stats) ? about.stats : [];
+		            const resume = (about.resume && typeof about.resume === 'object') ? about.resume : {};
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">About</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/about">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-about">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-about" type="checkbox" name="enabled" value="1" <%= isEnabled('about') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="about-number">Section Number</label>
+		                  <input id="about-number" name="number" type="text" value="<%= about.number || '' %>" placeholder="01." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="about-title">Title</label>
+		                  <input id="about-title" name="title" type="text" value="<%= about.title || '' %>" placeholder="About Me" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label for="about-paragraphs">Paragraphs (blank line separates)</label>
+		                  <textarea id="about-paragraphs" name="paragraphs" rows="7" class="admin-textarea" placeholder="Write about yourself..."><%= paragraphs.join('\n\n') %></textarea>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Info Grid</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Label + Value rows.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="about-info">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="about-info">
+		                    <% info.forEach((it, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-split">
+		                          <input name="info[<%= idx %>][label]" type="text" value="<%= it.label || '' %>" placeholder="Label" />
+		                          <input name="info[<%= idx %>][value]" type="text" value="<%= it.value || '' %>" placeholder="Value" />
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="about-info">
+		                    <div class="repeat-item">
+		                      <div class="admin-split">
+		                        <input name="info[__INDEX__][label]" type="text" value="" placeholder="Label" />
+		                        <input name="info[__INDEX__][value]" type="text" value="" placeholder="Value" />
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+
+		                <div class="admin-field">
+		                  <label for="about-resume-label">Resume Button</label>
+		                  <input id="about-resume-label" name="resume[label]" type="text" value="<%= resume.label || '' %>" placeholder="Download Resume" />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="about-resume-href">Resume URL</label>
+		                  <input id="about-resume-href" name="resume[href]" type="text" value="<%= resume.href || '' %>" placeholder="/resume" />
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="about-resume-icon">Resume Icon Class</label>
+		                  <input id="about-resume-icon" name="resume[icon]" type="text" value="<%= resume.icon || '' %>" placeholder="fas fa-download" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Stats Cards</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Icon + Count + Suffix + Label.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="about-stats">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="about-stats">
+		                    <% stats.forEach((s, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-grid-4">
+		                          <input name="stats[<%= idx %>][icon]" type="text" value="<%= s.icon || '' %>" placeholder="Icon" />
+		                          <input name="stats[<%= idx %>][count]" type="number" value="<%= (typeof s.count === 'number' || typeof s.count === 'string') ? s.count : '' %>" placeholder="Count" />
+		                          <input name="stats[<%= idx %>][suffix]" type="text" value="<%= s.suffix || '' %>" placeholder="Suffix" />
+		                          <input name="stats[<%= idx %>][label]" type="text" value="<%= s.label || '' %>" placeholder="Label" />
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="about-stats">
+		                    <div class="repeat-item">
+		                      <div class="admin-grid-4">
+		                        <input name="stats[__INDEX__][icon]" type="text" value="" placeholder="Icon" />
+		                        <input name="stats[__INDEX__][count]" type="number" value="" placeholder="Count" />
+		                        <input name="stats[__INDEX__][suffix]" type="text" value="" placeholder="Suffix" />
+		                        <input name="stats[__INDEX__][label]" type="text" value="" placeholder="Label" />
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=about">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'techstack') { %>
+		          <%
+		            const techstack = (site && site.techstack && typeof site.techstack === 'object') ? site.techstack : {};
+		            const categories = Array.isArray(techstack.categories) ? techstack.categories : [];
+		            const sphereTags = Array.isArray(techstack.sphereTags) ? techstack.sphereTags : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Tech Stack</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/techstack">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-techstack">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-techstack" type="checkbox" name="enabled" value="1" <%= isEnabled('techstack') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="tech-number">Section Number</label>
+		                  <input id="tech-number" name="number" type="text" value="<%= techstack.number || '' %>" placeholder="02." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="tech-title">Title</label>
+		                  <input id="tech-title" name="title" type="text" value="<%= techstack.title || '' %>" placeholder="Tech Stack" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label for="tech-sphere">Sphere Tags (one per line)</label>
+		                  <textarea id="tech-sphere" name="sphereTags" rows="6" class="admin-textarea" placeholder="Drupal&#10;PHP&#10;JavaScript"><%= sphereTags.join('\n') %></textarea>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Categories</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Each category has icon/title + items list.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="tech-cats">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="tech-cats">
+		                    <% categories.forEach((c, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Icon</label>
+		                            <input name="categories[<%= idx %>][icon]" type="text" value="<%= c.icon || '' %>" placeholder="fas fa-code" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Title</label>
+		                            <input name="categories[<%= idx %>][title]" type="text" value="<%= c.title || '' %>" placeholder="Languages" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Items (one per line: icon | label)</label>
+		                            <textarea class="admin-textarea" rows="5" name="categories[<%= idx %>][itemsLines]" placeholder="fab fa-php | PHP"><%= (Array.isArray(c.items) ? c.items.map((it) => `${it.icon || ''} | ${it.label || ''}`.trim()).join('\n') : '') %></textarea>
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="tech-cats">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Icon</label>
+		                          <input name="categories[__INDEX__][icon]" type="text" value="" placeholder="fas fa-code" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Title</label>
+		                          <input name="categories[__INDEX__][title]" type="text" value="" placeholder="Languages" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Items (one per line: icon | label)</label>
+		                          <textarea class="admin-textarea" rows="5" name="categories[__INDEX__][itemsLines]" placeholder="fab fa-php | PHP"></textarea>
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=techstack">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'projects') { %>
+		          <%
+		            const projects = (site && site.projects && typeof site.projects === 'object') ? site.projects : {};
+		            const filters = Array.isArray(projects.filters) ? projects.filters : [];
+		            const cards = Array.isArray(projects.cards) ? projects.cards : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Projects</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/projects">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-projects">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-projects" type="checkbox" name="enabled" value="1" <%= isEnabled('projects') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="projects-number">Section Number</label>
+		                  <input id="projects-number" name="number" type="text" value="<%= projects.number || '' %>" placeholder="04." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="projects-title">Title</label>
+		                  <input id="projects-title" name="title" type="text" value="<%= projects.title || '' %>" placeholder="Featured Projects" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label for="projects-filters">Filters (one per line: label | value)</label>
+		                  <textarea id="projects-filters" name="filtersLines" rows="5" class="admin-textarea" placeholder="All | all"><%= filters.map((f) => `${f.label || ''} | ${f.value || ''}`.trim()).join('\n') %></textarea>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Project Cards</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Front + Back content. Tech is comma-separated.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="proj-cards">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="proj-cards">
+		                    <% cards.forEach((p, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Category</label>
+		                            <input name="cards[<%= idx %>][category]" type="text" value="<%= p.category || '' %>" placeholder="web" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Front Icon</label>
+		                            <input name="cards[<%= idx %>][frontIcon]" type="text" value="<%= p.frontIcon || '' %>" placeholder="fas fa-code" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Front Title</label>
+		                            <input name="cards[<%= idx %>][frontTitle]" type="text" value="<%= p.frontTitle || '' %>" placeholder="Project name" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Back Title</label>
+		                            <input name="cards[<%= idx %>][backTitle]" type="text" value="<%= p.backTitle || '' %>" placeholder="Details title" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Front Description</label>
+		                            <textarea class="admin-textarea" rows="2" name="cards[<%= idx %>][frontDesc]"><%= p.frontDesc || '' %></textarea>
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Back Description</label>
+		                            <textarea class="admin-textarea" rows="3" name="cards[<%= idx %>][backDesc]"><%= p.backDesc || '' %></textarea>
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Tech (comma-separated)</label>
+		                            <input name="cards[<%= idx %>][techCsv]" type="text" value="<%= Array.isArray(p.tech) ? p.tech.join(', ') : '' %>" placeholder="Node.js, Express, MongoDB" />
+		                          </div>
+
+		                          <div class="admin-field">
+		                            <label>Link Type</label>
+		                            <select name="cards[<%= idx %>][linkType]" class="admin-select">
+		                              <option value="link" <%= (p.link && p.link.type === 'status') ? '' : 'selected' %>>Link</option>
+		                              <option value="status" <%= (p.link && p.link.type === 'status') ? 'selected' : '' %>>Status</option>
+		                            </select>
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Link Label</label>
+		                            <input name="cards[<%= idx %>][linkLabel]" type="text" value="<%= (p.link && p.link.label) ? p.link.label : '' %>" placeholder="View" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Link URL</label>
+		                            <input name="cards[<%= idx %>][linkHref]" type="text" value="<%= (p.link && p.link.href) ? p.link.href : '' %>" placeholder="https://..." />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Link Icon</label>
+		                            <input name="cards[<%= idx %>][linkIcon]" type="text" value="<%= (p.link && p.link.icon) ? p.link.icon : '' %>" placeholder="fas fa-arrow-right" />
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="proj-cards">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Category</label>
+		                          <input name="cards[__INDEX__][category]" type="text" value="" placeholder="web" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Front Icon</label>
+		                          <input name="cards[__INDEX__][frontIcon]" type="text" value="" placeholder="fas fa-code" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Front Title</label>
+		                          <input name="cards[__INDEX__][frontTitle]" type="text" value="" placeholder="Project name" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Back Title</label>
+		                          <input name="cards[__INDEX__][backTitle]" type="text" value="" placeholder="Details title" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Front Description</label>
+		                          <textarea class="admin-textarea" rows="2" name="cards[__INDEX__][frontDesc]"></textarea>
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Back Description</label>
+		                          <textarea class="admin-textarea" rows="3" name="cards[__INDEX__][backDesc]"></textarea>
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Tech (comma-separated)</label>
+		                          <input name="cards[__INDEX__][techCsv]" type="text" value="" placeholder="Node.js, Express" />
+		                        </div>
+
+		                        <div class="admin-field">
+		                          <label>Link Type</label>
+		                          <select name="cards[__INDEX__][linkType]" class="admin-select">
+		                            <option value="link" selected>Link</option>
+		                            <option value="status">Status</option>
+		                          </select>
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Link Label</label>
+		                          <input name="cards[__INDEX__][linkLabel]" type="text" value="" placeholder="View" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Link URL</label>
+		                          <input name="cards[__INDEX__][linkHref]" type="text" value="" placeholder="https://..." />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Link Icon</label>
+		                          <input name="cards[__INDEX__][linkIcon]" type="text" value="" placeholder="fas fa-arrow-right" />
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=projects">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'casestudies') { %>
+		          <%
+		            const casestudies = (site && site.casestudies && typeof site.casestudies === 'object') ? site.casestudies : {};
+		            const cards = Array.isArray(casestudies.cards) ? casestudies.cards : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Case Studies</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/casestudies">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-casestudies">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-casestudies" type="checkbox" name="enabled" value="1" <%= isEnabled('casestudies') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="cs-number">Section Number</label>
+		                  <input id="cs-number" name="number" type="text" value="<%= casestudies.number || '' %>" placeholder="05." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="cs-title">Title</label>
+		                  <input id="cs-title" name="title" type="text" value="<%= casestudies.title || '' %>" placeholder="Case Studies" />
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="cs-subtitle">Subtitle</label>
+		                  <input id="cs-subtitle" name="subtitle" type="text" value="<%= casestudies.subtitle || '' %>" placeholder="Short section subtitle" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Cards</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Architecture/Impact lists: comma or new lines.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="cs-cards">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="cs-cards">
+		                    <% cards.forEach((c, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Icon</label>
+		                            <input name="cards[<%= idx %>][icon]" type="text" value="<%= c.icon || '' %>" placeholder="fas fa-sitemap" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Tag</label>
+		                            <input name="cards[<%= idx %>][tag]" type="text" value="<%= c.tag || '' %>" placeholder="Enterprise" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Title</label>
+		                            <input name="cards[<%= idx %>][title]" type="text" value="<%= c.title || '' %>" placeholder="Case study title" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Challenge</label>
+		                            <textarea class="admin-textarea" rows="3" name="cards[<%= idx %>][challenge]"><%= c.challenge || '' %></textarea>
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Architecture (comma-separated)</label>
+		                            <input name="cards[<%= idx %>][architectureCsv]" type="text" value="<%= Array.isArray(c.architecture) ? c.architecture.join(', ') : '' %>" placeholder="Drupal, Nginx, MySQL" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Impact (one per line)</label>
+		                            <textarea class="admin-textarea" rows="4" name="cards[<%= idx %>][impactLines]"><%= Array.isArray(c.impact) ? c.impact.join('\\n') : '' %></textarea>
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Tech (comma-separated)</label>
+		                            <input name="cards[<%= idx %>][techCsv]" type="text" value="<%= Array.isArray(c.tech) ? c.tech.join(', ') : '' %>" placeholder="PHP, Drupal" />
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="cs-cards">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Icon</label>
+		                          <input name="cards[__INDEX__][icon]" type="text" value="" placeholder="fas fa-sitemap" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Tag</label>
+		                          <input name="cards[__INDEX__][tag]" type="text" value="" placeholder="Enterprise" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Title</label>
+		                          <input name="cards[__INDEX__][title]" type="text" value="" placeholder="Case study title" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Challenge</label>
+		                          <textarea class="admin-textarea" rows="3" name="cards[__INDEX__][challenge]"></textarea>
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Architecture (comma-separated)</label>
+		                          <input name="cards[__INDEX__][architectureCsv]" type="text" value="" placeholder="Drupal, Nginx, MySQL" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Impact (one per line)</label>
+		                          <textarea class="admin-textarea" rows="4" name="cards[__INDEX__][impactLines]"></textarea>
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Tech (comma-separated)</label>
+		                          <input name="cards[__INDEX__][techCsv]" type="text" value="" placeholder="PHP, Drupal" />
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=casestudies">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'experience') { %>
+		          <%
+		            const experience = (site && site.experience && typeof site.experience === 'object') ? site.experience : {};
+		            const items = Array.isArray(experience.items) ? experience.items : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Experience</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/experience">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-experience">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-experience" type="checkbox" name="enabled" value="1" <%= isEnabled('experience') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="exp-number">Section Number</label>
+		                  <input id="exp-number" name="number" type="text" value="<%= experience.number || '' %>" placeholder="06." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="exp-title">Title</label>
+		                  <input id="exp-title" name="title" type="text" value="<%= experience.title || '' %>" placeholder="Experience" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Timeline Items</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Details: one per line. Tags: comma-separated.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="exp-items">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="exp-items">
+		                    <% items.forEach((it, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Role</label>
+		                            <input name="items[<%= idx %>][role]" type="text" value="<%= it.role || '' %>" placeholder="Software Developer" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Company</label>
+		                            <input name="items[<%= idx %>][company]" type="text" value="<%= it.company || '' %>" placeholder="Company" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Date</label>
+		                            <input name="items[<%= idx %>][date]" type="text" value="<%= it.date || '' %>" placeholder="2024 - Present" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Location</label>
+		                            <input name="items[<%= idx %>][location]" type="text" value="<%= it.location || '' %>" placeholder="Mumbai, India" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Details (one per line)</label>
+		                            <textarea class="admin-textarea" rows="4" name="items[<%= idx %>][detailsLines]"><%= Array.isArray(it.details) ? it.details.join('\\n') : '' %></textarea>
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Tags (comma-separated)</label>
+		                            <input name="items[<%= idx %>][tagsCsv]" type="text" value="<%= Array.isArray(it.tags) ? it.tags.join(', ') : '' %>" placeholder="Drupal, Agile" />
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="exp-items">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Role</label>
+		                          <input name="items[__INDEX__][role]" type="text" value="" placeholder="Software Developer" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Company</label>
+		                          <input name="items[__INDEX__][company]" type="text" value="" placeholder="Company" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Date</label>
+		                          <input name="items[__INDEX__][date]" type="text" value="" placeholder="2024 - Present" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Location</label>
+		                          <input name="items[__INDEX__][location]" type="text" value="" placeholder="Mumbai, India" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Details (one per line)</label>
+		                          <textarea class="admin-textarea" rows="4" name="items[__INDEX__][detailsLines]"></textarea>
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Tags (comma-separated)</label>
+		                          <input name="items[__INDEX__][tagsCsv]" type="text" value="" placeholder="Drupal, Agile" />
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=experience">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'certifications') { %>
+		          <%
+		            const certifications = (site && site.certifications && typeof site.certifications === 'object') ? site.certifications : {};
+		            const cards = Array.isArray(certifications.cards) ? certifications.cards : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Certifications</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/certifications">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-certifications">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-certifications" type="checkbox" name="enabled" value="1" <%= isEnabled('certifications') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="cert-number">Section Number</label>
+		                  <input id="cert-number" name="number" type="text" value="<%= certifications.number || '' %>" placeholder="07." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="cert-title">Title</label>
+		                  <input id="cert-title" name="title" type="text" value="<%= certifications.title || '' %>" placeholder="Certifications" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Cards</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Ribbon + meta (two lines).</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="cert-cards">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="cert-cards">
+		                    <% cards.forEach((c, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Ribbon Text</label>
+		                            <input name="cards[<%= idx %>][ribbonText]" type="text" value="<%= (c.ribbon && c.ribbon.text) ? c.ribbon.text : '' %>" placeholder="Top" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Ribbon Variant</label>
+		                            <input name="cards[<%= idx %>][ribbonVariant]" type="text" value="<%= (c.ribbon && c.ribbon.variant) ? c.ribbon.variant : '' %>" placeholder="gold" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Icon</label>
+		                            <input name="cards[<%= idx %>][icon]" type="text" value="<%= c.icon || '' %>" placeholder="fas fa-certificate" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Title</label>
+		                            <input name="cards[<%= idx %>][title]" type="text" value="<%= c.title || '' %>" placeholder="Certification title" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Description</label>
+		                            <textarea class="admin-textarea" rows="3" name="cards[<%= idx %>][desc]"><%= c.desc || '' %></textarea>
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Meta 1 (icon | text)</label>
+		                            <input name="cards[<%= idx %>][meta1]" type="text" value="<%= (Array.isArray(c.meta) && c.meta[0]) ? `${c.meta[0].icon || ''} | ${c.meta[0].text || ''}`.trim() : '' %>" placeholder="fas fa-calendar-alt | 2024" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Meta 2 (icon | text)</label>
+		                            <input name="cards[<%= idx %>][meta2]" type="text" value="<%= (Array.isArray(c.meta) && c.meta[1]) ? `${c.meta[1].icon || ''} | ${c.meta[1].text || ''}`.trim() : '' %>" placeholder="fas fa-book | Provider" />
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="cert-cards">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Ribbon Text</label>
+		                          <input name="cards[__INDEX__][ribbonText]" type="text" value="" placeholder="Top" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Ribbon Variant</label>
+		                          <input name="cards[__INDEX__][ribbonVariant]" type="text" value="" placeholder="gold" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Icon</label>
+		                          <input name="cards[__INDEX__][icon]" type="text" value="" placeholder="fas fa-certificate" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Title</label>
+		                          <input name="cards[__INDEX__][title]" type="text" value="" placeholder="Certification title" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Description</label>
+		                          <textarea class="admin-textarea" rows="3" name="cards[__INDEX__][desc]"></textarea>
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Meta 1 (icon | text)</label>
+		                          <input name="cards[__INDEX__][meta1]" type="text" value="" placeholder="fas fa-calendar-alt | 2024" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Meta 2 (icon | text)</label>
+		                          <input name="cards[__INDEX__][meta2]" type="text" value="" placeholder="fas fa-book | Provider" />
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=certifications">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'blog') { %>
+		          <%
+		            const blog = (site && site.blog && typeof site.blog === 'object') ? site.blog : {};
+		            const posts = Array.isArray(blog.posts) ? blog.posts : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Blog</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/blog">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-blog">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-blog" type="checkbox" name="enabled" value="1" <%= isEnabled('blog') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="blog-number">Section Number</label>
+		                  <input id="blog-number" name="number" type="text" value="<%= blog.number || '' %>" placeholder="08." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="blog-title">Title</label>
+		                  <input id="blog-title" name="title" type="text" value="<%= blog.title || '' %>" placeholder="Blog" />
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="blog-subtitle">Subtitle</label>
+		                  <input id="blog-subtitle" name="subtitle" type="text" value="<%= blog.subtitle || '' %>" placeholder="Subtitle..." />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Posts</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Each post shows as a card.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="blog-posts">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="blog-posts">
+		                    <% posts.forEach((p, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Icon</label>
+		                            <input name="posts[<%= idx %>][icon]" type="text" value="<%= p.icon || '' %>" placeholder="fab fa-drupal" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Category</label>
+		                            <input name="posts[<%= idx %>][category]" type="text" value="<%= p.category || '' %>" placeholder="Drupal" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Date</label>
+		                            <input name="posts[<%= idx %>][date]" type="text" value="<%= p.date || '' %>" placeholder="Jan 2026" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>URL</label>
+		                            <input name="posts[<%= idx %>][href]" type="text" value="<%= p.href || '' %>" placeholder="#" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Title</label>
+		                            <input name="posts[<%= idx %>][title]" type="text" value="<%= p.title || '' %>" placeholder="Post title" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Excerpt</label>
+		                            <textarea class="admin-textarea" rows="3" name="posts[<%= idx %>][excerpt]"><%= p.excerpt || '' %></textarea>
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="blog-posts">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Icon</label>
+		                          <input name="posts[__INDEX__][icon]" type="text" value="" placeholder="fab fa-drupal" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Category</label>
+		                          <input name="posts[__INDEX__][category]" type="text" value="" placeholder="Drupal" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Date</label>
+		                          <input name="posts[__INDEX__][date]" type="text" value="" placeholder="Jan 2026" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>URL</label>
+		                          <input name="posts[__INDEX__][href]" type="text" value="" placeholder="#" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Title</label>
+		                          <input name="posts[__INDEX__][title]" type="text" value="" placeholder="Post title" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Excerpt</label>
+		                          <textarea class="admin-textarea" rows="3" name="posts[__INDEX__][excerpt]"></textarea>
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=blog">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'github') { %>
+		          <%
+		            const github = (site && site.github && typeof site.github === 'object') ? site.github : {};
+		            const stats = Array.isArray(github.stats) ? github.stats : [];
+		            const pinned = Array.isArray(github.pinned) ? github.pinned : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">GitHub</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/github">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-github">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-github" type="checkbox" name="enabled" value="1" <%= isEnabled('github') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="gh-number">Section Number</label>
+		                  <input id="gh-number" name="number" type="text" value="<%= github.number || '' %>" placeholder="08." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="gh-title">Title</label>
+		                  <input id="gh-title" name="title" type="text" value="<%= github.title || '' %>" placeholder="GitHub" />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="gh-user">Username</label>
+		                  <input id="gh-user" name="username" type="text" value="<%= github.username || '' %>" placeholder="deepak0075423" />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="gh-profile">Profile URL</label>
+		                  <input id="gh-profile" name="profileUrl" type="text" value="<%= github.profileUrl || '' %>" placeholder="https://github.com/..." />
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="gh-tagline">Tagline</label>
+		                  <input id="gh-tagline" name="tagline" type="text" value="<%= github.tagline || '' %>" placeholder="Short tagline" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Stats</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Icon + Value + Label.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="gh-stats">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="gh-stats">
+		                    <% stats.forEach((s, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-grid-3">
+		                          <input name="stats[<%= idx %>][icon]" type="text" value="<%= s.icon || '' %>" placeholder="fas fa-book" />
+		                          <input name="stats[<%= idx %>][value]" type="text" value="<%= s.value || '' %>" placeholder="10+" />
+		                          <input name="stats[<%= idx %>][label]" type="text" value="<%= s.label || '' %>" placeholder="Repositories" />
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="gh-stats">
+		                    <div class="repeat-item">
+		                      <div class="admin-grid-3">
+		                        <input name="stats[__INDEX__][icon]" type="text" value="" placeholder="fas fa-book" />
+		                        <input name="stats[__INDEX__][value]" type="text" value="" placeholder="10+" />
+		                        <input name="stats[__INDEX__][label]" type="text" value="" placeholder="Repositories" />
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Pinned Repositories</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Language: name + class (for dot color).</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="gh-pinned">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="gh-pinned">
+		                    <% pinned.forEach((r, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Repo Name</label>
+		                            <input name="pinned[<%= idx %>][name]" type="text" value="<%= r.name || '' %>" placeholder="Repo" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Stars</label>
+		                            <input name="pinned[<%= idx %>][stars]" type="text" value="<%= r.stars || '' %>" placeholder="1" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>URL</label>
+		                            <input name="pinned[<%= idx %>][href]" type="text" value="<%= r.href || '' %>" placeholder="https://github.com/..." />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Icon</label>
+		                            <input name="pinned[<%= idx %>][icon]" type="text" value="<%= r.icon || '' %>" placeholder="fas fa-book" />
+		                          </div>
+		                          <div class="admin-field admin-field-full">
+		                            <label>Description</label>
+		                            <textarea class="admin-textarea" rows="2" name="pinned[<%= idx %>][desc]"><%= r.desc || '' %></textarea>
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Lang Name</label>
+		                            <input name="pinned[<%= idx %>][langName]" type="text" value="<%= (r.lang && r.lang.name) ? r.lang.name : '' %>" placeholder="JavaScript" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Lang Class</label>
+		                            <input name="pinned[<%= idx %>][langClass]" type="text" value="<%= (r.lang && r.lang.class) ? r.lang.class : '' %>" placeholder="js" />
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="gh-pinned">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Repo Name</label>
+		                          <input name="pinned[__INDEX__][name]" type="text" value="" placeholder="Repo" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Stars</label>
+		                          <input name="pinned[__INDEX__][stars]" type="text" value="" placeholder="1" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>URL</label>
+		                          <input name="pinned[__INDEX__][href]" type="text" value="" placeholder="https://github.com/..." />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Icon</label>
+		                          <input name="pinned[__INDEX__][icon]" type="text" value="" placeholder="fas fa-book" />
+		                        </div>
+		                        <div class="admin-field admin-field-full">
+		                          <label>Description</label>
+		                          <textarea class="admin-textarea" rows="2" name="pinned[__INDEX__][desc]"></textarea>
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Lang Name</label>
+		                          <input name="pinned[__INDEX__][langName]" type="text" value="" placeholder="JavaScript" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Lang Class</label>
+		                          <input name="pinned[__INDEX__][langClass]" type="text" value="" placeholder="js" />
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=github">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'contact') { %>
+		          <%
+		            const contact = (site && site.contact && typeof site.contact === 'object') ? site.contact : {};
+		            const details = Array.isArray(contact.details) ? contact.details : [];
+		            const socials = Array.isArray(contact.socials) ? contact.socials : [];
+		            const form = (contact.form && typeof contact.form === 'object') ? contact.form : {};
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Contact</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/contact">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-contact">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-contact" type="checkbox" name="enabled" value="1" <%= isEnabled('contact') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field">
+		                  <label for="contact-number">Section Number</label>
+		                  <input id="contact-number" name="number" type="text" value="<%= contact.number || '' %>" placeholder="09." />
+		                </div>
+		                <div class="admin-field">
+		                  <label for="contact-title">Title</label>
+		                  <input id="contact-title" name="title" type="text" value="<%= contact.title || '' %>" placeholder="Get In Touch" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label for="contact-desc">Description</label>
+		                  <textarea id="contact-desc" name="description" rows="4" class="admin-textarea"><%= contact.description || '' %></textarea>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Contact Details</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Icon + Label + Value + (optional) href.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="contact-details">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="contact-details">
+		                    <% details.forEach((d, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-fields" style="margin-top:0;">
+		                          <div class="admin-field">
+		                            <label>Icon</label>
+		                            <input name="details[<%= idx %>][icon]" type="text" value="<%= d.icon || '' %>" placeholder="fas fa-envelope" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Label</label>
+		                            <input name="details[<%= idx %>][label]" type="text" value="<%= d.label || '' %>" placeholder="Email" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Value</label>
+		                            <input name="details[<%= idx %>][value]" type="text" value="<%= d.value || '' %>" placeholder="you@example.com" />
+		                          </div>
+		                          <div class="admin-field">
+		                            <label>Href</label>
+		                            <input name="details[<%= idx %>][href]" type="text" value="<%= d.href || '' %>" placeholder="mailto:..." />
+		                          </div>
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="contact-details">
+		                    <div class="repeat-item">
+		                      <div class="admin-fields" style="margin-top:0;">
+		                        <div class="admin-field">
+		                          <label>Icon</label>
+		                          <input name="details[__INDEX__][icon]" type="text" value="" placeholder="fas fa-envelope" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Label</label>
+		                          <input name="details[__INDEX__][label]" type="text" value="" placeholder="Email" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Value</label>
+		                          <input name="details[__INDEX__][value]" type="text" value="" placeholder="you@example.com" />
+		                        </div>
+		                        <div class="admin-field">
+		                          <label>Href</label>
+		                          <input name="details[__INDEX__][href]" type="text" value="" placeholder="mailto:..." />
+		                        </div>
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Social Links</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Icon + Label + URL.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="contact-socials">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="contact-socials">
+		                    <% socials.forEach((s, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-grid-3">
+		                          <input name="socials[<%= idx %>][icon]" type="text" value="<%= s.icon || '' %>" placeholder="fab fa-linkedin-in" />
+		                          <input name="socials[<%= idx %>][label]" type="text" value="<%= s.label || '' %>" placeholder="LinkedIn" />
+		                          <input name="socials[<%= idx %>][href]" type="text" value="<%= s.href || '' %>" placeholder="https://..." />
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="contact-socials">
+		                    <div class="repeat-item">
+		                      <div class="admin-grid-3">
+		                        <input name="socials[__INDEX__][icon]" type="text" value="" placeholder="fab fa-linkedin-in" />
+		                        <input name="socials[__INDEX__][label]" type="text" value="" placeholder="LinkedIn" />
+		                        <input name="socials[__INDEX__][href]" type="text" value="" placeholder="https://..." />
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Form Labels</label>
+		                  <div class="admin-grid-2">
+		                    <input name="form[nameLabel]" type="text" value="<%= form.nameLabel || '' %>" placeholder="Your Name" />
+		                    <input name="form[emailLabel]" type="text" value="<%= form.emailLabel || '' %>" placeholder="Your Email" />
+		                    <input name="form[subjectLabel]" type="text" value="<%= form.subjectLabel || '' %>" placeholder="Subject" />
+		                    <input name="form[buttonLabel]" type="text" value="<%= form.buttonLabel || '' %>" placeholder="Send Message" />
+		                  </div>
+		                  <div style="margin-top:12px;">
+		                    <input name="form[messageLabel]" type="text" value="<%= form.messageLabel || '' %>" placeholder="Message" />
+		                  </div>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=contact">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'footer') { %>
+		          <%
+		            const footer = (site && site.footer && typeof site.footer === 'object') ? site.footer : {};
+		            const links = Array.isArray(footer.links) ? footer.links : [];
+		          %>
+
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Footer</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/footer">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-row">
+		                <label class="admin-switch" for="toggle-footer">
+		                  <input type="hidden" name="enabled" value="0" />
+		                  <input id="toggle-footer" type="checkbox" name="enabled" value="1" <%= isEnabled('footer') ? 'checked' : '' %> />
+		                  <span class="switch-label">Enabled</span>
+		                </label>
+		              </div>
+
+		              <div class="admin-fields">
+		                <div class="admin-field admin-field-full">
+		                  <label for="footer-logo">Logo Text (HTML allowed)</label>
+		                  <input id="footer-logo" name="logoText" type="text" value="<%= footer.logoText || '' %>" placeholder="&lt;DP/&gt;" />
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="footer-line1">Line 1</label>
+		                  <input id="footer-line1" name="line1" type="text" value="<%= footer.line1 || '' %>" placeholder="Designed & Built by ..." />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Links</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">Href + Icon + Label.</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="footer-links">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="footer-links">
+		                    <% links.forEach((l, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-grid-3">
+		                          <input name="links[<%= idx %>][href]" type="text" value="<%= l.href || '' %>" placeholder="https://..." />
+		                          <input name="links[<%= idx %>][icon]" type="text" value="<%= l.icon || '' %>" placeholder="fab fa-github" />
+		                          <input name="links[<%= idx %>][label]" type="text" value="<%= l.label || '' %>" placeholder="GitHub" />
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="footer-links">
+		                    <div class="repeat-item">
+		                      <div class="admin-grid-3">
+		                        <input name="links[__INDEX__][href]" type="text" value="" placeholder="https://..." />
+		                        <input name="links[__INDEX__][icon]" type="text" value="" placeholder="fab fa-github" />
+		                        <input name="links[__INDEX__][label]" type="text" value="" placeholder="GitHub" />
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=footer">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'meta') { %>
+		          <%
+		            const meta = (site && site.meta && typeof site.meta === 'object') ? site.meta : {};
+		          %>
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Meta</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/meta">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+		              <div class="admin-fields">
+		                <div class="admin-field admin-field-full">
+		                  <label for="meta-title">Page Title</label>
+		                  <input id="meta-title" name="title" type="text" value="<%= meta.title || '' %>" placeholder="Your Name | Role" />
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="meta-description">Description</label>
+		                  <textarea id="meta-description" name="description" rows="4" class="admin-textarea" placeholder="Short summary used by Google / social previews."><%= meta.description || '' %></textarea>
+		                </div>
+		                <div class="admin-field admin-field-full">
+		                  <label for="meta-ogimage">Open Graph Image URL (optional)</label>
+		                  <input id="meta-ogimage" name="ogImage" type="text" value="<%= meta.ogImage || '' %>" placeholder="https://yourdomain.com/og.png" />
+		                </div>
+		              </div>
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=meta">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'nav') { %>
+		          <%
+		            const nav = (site && site.nav && typeof site.nav === 'object') ? site.nav : {};
+		            const links = Array.isArray(nav.links) ? nav.links : [];
+		          %>
+		          <div class="admin-panel">
+		            <div class="admin-row">
+		              <h2 style="margin:0;">Navigation</h2>
+		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		            </div>
+
+		            <form class="admin-form" method="post" action="/admin/nav">
+		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+		              <div class="admin-fields">
+		                <div class="admin-field admin-field-full">
+		                  <label for="nav-logo">Logo Text (HTML allowed)</label>
+		                  <input id="nav-logo" name="logoText" type="text" value="<%= nav.logoText || '' %>" placeholder="&lt;DP/&gt;" />
+		                </div>
+
+		                <div class="admin-field admin-field-full">
+		                  <label>Links</label>
+		                  <div class="admin-repeat-header">
+		                    <span class="admin-help">ID must match section id (hero/about/...)</span>
+		                    <button type="button" class="btn btn-outline btn-sm" data-repeat-add="nav-links">Add</button>
+		                  </div>
+		                  <div class="admin-repeat" data-repeat="nav-links">
+		                    <% links.forEach((l, idx) => { %>
+		                      <div class="repeat-item">
+		                        <div class="admin-split">
+		                          <input name="links[<%= idx %>][id]" type="text" value="<%= l.id || '' %>" placeholder="hero" />
+		                          <input name="links[<%= idx %>][label]" type="text" value="<%= l.label || '' %>" placeholder="Home" />
+		                        </div>
+		                        <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                      </div>
+		                    <% }) %>
+		                  </div>
+		                  <template data-repeat-template="nav-links">
+		                    <div class="repeat-item">
+		                      <div class="admin-split">
+		                        <input name="links[__INDEX__][id]" type="text" value="" placeholder="hero" />
+		                        <input name="links[__INDEX__][label]" type="text" value="" placeholder="Home" />
+		                      </div>
+		                      <button type="button" class="btn btn-outline btn-sm" data-repeat-remove>Remove</button>
+		                    </div>
+		                  </template>
+		                </div>
+		              </div>
+
+		              <div class="admin-actions-bar">
+		                <button type="submit" class="btn btn-primary">Save Changes</button>
+		                <a class="btn btn-outline" href="/admin?page=nav">Cancel</a>
+		              </div>
+		            </form>
+		          </div>
+		        <% } else if (activePage === 'raw') { %>
+		          <div class="admin-panel">
+		            <h2>Site JSON (Advanced)</h2>
+		            <p class="admin-help">Homepage renders directly from <code>data/site.json</code>. Keep valid JSON.</p>
+	            <form class="admin-form" method="post" action="/admin/site">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <textarea class="admin-json" name="siteJson" spellcheck="false"><%= siteJson %></textarea>
+              <div class="admin-row">
+                <span class="admin-help">Tip: use <code>\\n</code> for newlines inside strings.</span>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+        <% } else { %>
+          <%
+            const sectionId = activePage;
+            const sectionObj = (site && site[sectionId] && typeof site[sectionId] === 'object') ? site[sectionId] : {};
+            const showEnabledToggle = sectionId !== 'meta' && sectionId !== 'nav';
+            const currentEnabled = isEnabled(sectionId);
+          %>
+
+          <div class="admin-panel">
+            <h2>Edit: <%= pageTitle %></h2>
+            <p class="admin-help">This editor updates <code>data/site.json</code> for just the <code><%= sectionId %></code> key.</p>
+
+            <form class="admin-form" method="post" action="/admin/section/<%= sectionId %>">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <% if (showEnabledToggle) { %>
+                <div class="admin-row">
+                  <label class="admin-switch" for="toggle-<%= sectionId %>">
+                    <input type="hidden" name="enabled" value="0" />
+                    <input id="toggle-<%= sectionId %>" type="checkbox" name="enabled" value="1" <%= currentEnabled ? 'checked' : '' %> />
+                    <span class="switch-label">Enabled</span>
+                  </label>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              <% } else { %>
+                <div class="admin-row">
+                  <span class="admin-help">No enable/disable toggle for this page.</span>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              <% } %>
+
+              <textarea class="admin-json" name="sectionJson" spellcheck="false"><%= JSON.stringify(sectionObj, null, 2) %></textarea>
+              <div class="admin-row">
+                <span class="admin-help">Tip: if you break JSON, you can recover from <code>data/site.json</code> backups.</span>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    </main>
+  </div>
+  <script src="/admin.js"></script>
+</body>
+</html>

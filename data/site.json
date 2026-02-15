@@ -1,0 +1,944 @@
+{
+  "meta": {
+    "title": "Deepak Pandey | Software Developer"
+  },
+  "nav": {
+    "logoText": "&lt;DP/&gt;",
+    "links": [
+      {
+        "id": "hero",
+        "label": "Home"
+      },
+      {
+        "id": "about",
+        "label": "About"
+      },
+      {
+        "id": "techstack",
+        "label": "Tech Stack"
+      },
+      {
+        "id": "projects",
+        "label": "Projects"
+      },
+      {
+        "id": "casestudies",
+        "label": "Case Studies"
+      },
+      {
+        "id": "experience",
+        "label": "Experience"
+      },
+      {
+        "id": "certifications",
+        "label": "Certifications"
+      },
+      {
+        "id": "blog",
+        "label": "Blog"
+      },
+      {
+        "id": "github",
+        "label": "GitHub"
+      },
+      {
+        "id": "contact",
+        "label": "Contact"
+      }
+    ]
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "firstName": "Deepak",
+    "lastName": "Pandey",
+    "titles": [
+      "Software Developer",
+      "Drupal Expert",
+      "Full-Stack Developer",
+      "Agile Practitioner",
+      "Backend Specialist"
+    ],
+    "description": "Building high-impact digital platforms for banking, HRMS & enterprise clients with ~3 years of experience in full-stack development & Agile delivery.",
+    "ctas": [
+      {
+        "label": "View My Work",
+        "href": "#projects",
+        "style": "primary",
+        "icon": "fas fa-arrow-right"
+      },
+      {
+        "label": "Get In Touch",
+        "href": "#contact",
+        "style": "outline",
+        "icon": ""
+      }
+    ],
+    "socials": [
+      {
+        "href": "https://www.linkedin.com/in/deepak-pandey-51735b213",
+        "label": "LinkedIn",
+        "icon": "fab fa-linkedin-in"
+      },
+      {
+        "href": "https://github.com/deepak0075423",
+        "label": "GitHub",
+        "icon": "fab fa-github"
+      },
+      {
+        "href": "https://www.drupal.org/u/deepak5423",
+        "label": "Drupal",
+        "icon": "fab fa-drupal"
+      },
+      {
+        "href": "mailto:ppdd5423@gmail.com",
+        "label": "Email",
+        "icon": "fas fa-envelope"
+      }
+    ],
+    "scrollText": "Scroll Down"
+  },
+  "about": {
+    "number": "01.",
+    "title": "About Me",
+    "paragraphsHtml": [
+      "I'm a <strong>Software Developer</strong> with around 3 years of experience leading delivery and developing digital platforms for <strong>banking, HRMS, and enterprise</strong> clients. I specialize in building scalable web solutions using <strong>Drupal, PHP, Python, and JavaScript</strong>.",
+      "Currently at <strong>Giglabz</strong>, I'm leading planning and execution of Finobank's internal and external platforms, managing backend development and cross-functional collaboration. Previously at <strong>Innoraft Solutions</strong>, I managed deliverables for major projects including HCLTech and HCL Foundation.",
+      "I'm skilled in <strong>Agile/Scrum methodologies</strong>, sprint planning, risk management, and delivering high-impact web solutions. I hold a <strong>B.Tech in Computer Science</strong> from Guru Nanak Institute of Technology, Kolkata, and have published patents and research papers."
+    ],
+    "info": [
+      {
+        "label": "Name",
+        "value": "Deepak Pandey"
+      },
+      {
+        "label": "Email",
+        "value": "ppdd5423@gmail.com"
+      },
+      {
+        "label": "Phone",
+        "value": "+91 7595963707"
+      },
+      {
+        "label": "Location",
+        "value": "Mumbai, India"
+      },
+      {
+        "label": "Degree",
+        "value": "B.Tech, CSE"
+      },
+      {
+        "label": "University",
+        "value": "GNIT, Kolkata"
+      }
+    ],
+    "resume": {
+      "label": "Download Resume",
+      "href": "/resume",
+      "icon": "fas fa-download"
+    },
+    "stats": [
+      {
+        "icon": "fas fa-briefcase",
+        "count": 3,
+        "suffix": "+",
+        "label": "Years Experience"
+      },
+      {
+        "icon": "fas fa-project-diagram",
+        "count": 6,
+        "suffix": "+",
+        "label": "Live Projects"
+      },
+      {
+        "icon": "fas fa-trophy",
+        "count": 5,
+        "suffix": "+",
+        "label": "Awards Won"
+      },
+      {
+        "icon": "fas fa-file-alt",
+        "count": 2,
+        "suffix": "",
+        "label": "Patents Published"
+      }
+    ]
+  },
+  "techstack": {
+    "number": "02.",
+    "title": "Tech Stack",
+    "categories": [
+      {
+        "icon": "fas fa-code",
+        "title": "Languages",
+        "items": [
+          {
+            "icon": "fab fa-php",
+            "label": "PHP"
+          },
+          {
+            "icon": "fab fa-python",
+            "label": "Python"
+          },
+          {
+            "icon": "fab fa-js-square",
+            "label": "JavaScript"
+          },
+          {
+            "icon": "fas fa-database",
+            "label": "SQL"
+          }
+        ]
+      },
+      {
+        "icon": "fas fa-layer-group",
+        "title": "Frameworks & CMS",
+        "items": [
+          {
+            "icon": "fab fa-drupal",
+            "label": "Drupal"
+          },
+          {
+            "icon": "fab fa-laravel",
+            "label": "LEMP Stack"
+          },
+          {
+            "icon": "fas fa-palette",
+            "label": "Twig"
+          },
+          {
+            "icon": "fab fa-jquery",
+            "label": "jQuery"
+          }
+        ]
+      },
+      {
+        "icon": "fas fa-paint-brush",
+        "title": "Frontend",
+        "items": [
+          {
+            "icon": "fab fa-html5",
+            "label": "HTML5"
+          },
+          {
+            "icon": "fab fa-css3-alt",
+            "label": "CSS3"
+          },
+          {
+            "icon": "fas fa-bolt",
+            "label": "Ajax"
+          },
+          {
+            "icon": "fas fa-mobile-alt",
+            "label": "Responsive"
+          }
+        ]
+      },
+      {
+        "icon": "fas fa-server",
+        "title": "Database & Server",
+        "items": [
+          {
+            "icon": "fas fa-database",
+            "label": "MySQL"
+          },
+          {
+            "icon": "fab fa-linux",
+            "label": "Linux"
+          },
+          {
+            "icon": "fas fa-terminal",
+            "label": "Nginx"
+          },
+          {
+            "icon": "fas fa-cloud",
+            "label": "REST APIs"
+          }
+        ]
+      },
+      {
+        "icon": "fas fa-tools",
+        "title": "Dev Tools",
+        "items": [
+          {
+            "icon": "fab fa-git-alt",
+            "label": "Git"
+          },
+          {
+            "icon": "fas fa-code",
+            "label": "VS Code"
+          },
+          {
+            "icon": "fas fa-bug",
+            "label": "Xdebug"
+          },
+          {
+            "icon": "fab fa-docker",
+            "label": "Docker"
+          }
+        ]
+      },
+      {
+        "icon": "fas fa-tasks",
+        "title": "Methodologies",
+        "items": [
+          {
+            "icon": "fas fa-sync-alt",
+            "label": "Agile"
+          },
+          {
+            "icon": "fas fa-clipboard-list",
+            "label": "Scrum"
+          },
+          {
+            "icon": "fab fa-jira",
+            "label": "Jira"
+          },
+          {
+            "icon": "fas fa-chart-line",
+            "label": "Sprint Planning"
+          }
+        ]
+      }
+    ],
+    "sphereTags": [
+      "Drupal",
+      "PHP",
+      "JavaScript",
+      "Python",
+      "MySQL",
+      "HTML/CSS",
+      "jQuery",
+      "Ajax",
+      "Git",
+      "Linux",
+      "Agile",
+      "Jira",
+      "Twig",
+      "VS Code",
+      "Scrum",
+      "LEMP"
+    ]
+  },
+  "projects": {
+    "number": "03.",
+    "title": "Featured Projects",
+    "filters": [
+      {
+        "label": "All",
+        "value": "all"
+      },
+      {
+        "label": "Live Projects",
+        "value": "live"
+      },
+      {
+        "label": "College Projects",
+        "value": "college"
+      }
+    ],
+    "cards": [
+      {
+        "category": "live",
+        "frontIcon": "fas fa-globe",
+        "frontTitle": "HCLTech",
+        "frontDesc": "Global IT services and consulting company delivering innovative digital solutions.",
+        "tech": [
+          "Drupal",
+          "Ajax",
+          "Twig",
+          "JS"
+        ],
+        "backTitle": "HCLTech",
+        "backDesc": "Built and maintained the corporate website for one of the world's largest IT services companies, implementing scalable architecture and optimized performance.",
+        "link": {
+          "type": "live",
+          "label": "Live Site",
+          "href": "https://www.hcltech.com",
+          "icon": "fas fa-external-link-alt"
+        }
+      },
+      {
+        "category": "live",
+        "frontIcon": "fas fa-hand-holding-heart",
+        "frontTitle": "HCL Foundation",
+        "frontDesc": "CSR arm of HCLTech focused on social development in education, healthcare & community welfare.",
+        "tech": [
+          "Drupal",
+          "Ajax",
+          "CSS",
+          "jQuery"
+        ],
+        "backTitle": "HCL Foundation",
+        "backDesc": "Drove redesign efforts ensuring scalability, performance, and alignment with client goals for social impact initiatives.",
+        "link": {
+          "type": "live",
+          "label": "Live Site",
+          "href": "https://www.hclfoundation.org",
+          "icon": "fas fa-external-link-alt"
+        }
+      },
+      {
+        "category": "live",
+        "frontIcon": "fas fa-seedling",
+        "frontTitle": "HCLTech Grant",
+        "frontDesc": "Funding initiative supporting innovative projects, startups, and social impact programs.",
+        "tech": [
+          "Drupal",
+          "HTML",
+          "Twig",
+          "JS"
+        ],
+        "backTitle": "HCLTech Grant",
+        "backDesc": "Built the platform empowering communities and businesses to drive sustainable growth and positive change through grants.",
+        "link": {
+          "type": "live",
+          "label": "Live Site",
+          "href": "https://www.hcltechgrant.com",
+          "icon": "fas fa-external-link-alt"
+        }
+      },
+      {
+        "category": "live",
+        "frontIcon": "fas fa-car",
+        "frontTitle": "Carrohub",
+        "frontDesc": "Dubai-based car marketplace simplifying buying and selling with inspections & fair pricing.",
+        "tech": [
+          "Drupal",
+          "Ajax",
+          "jQuery",
+          "CSS"
+        ],
+        "backTitle": "Carrohub",
+        "backDesc": "Coordinated with remote teams and ensured seamless feature development for the Dubai-based car transaction marketplace.",
+        "link": {
+          "type": "live",
+          "label": "Live Site",
+          "href": "https://www.carrohub.com",
+          "icon": "fas fa-external-link-alt"
+        }
+      },
+      {
+        "category": "live",
+        "frontIcon": "fas fa-university",
+        "frontTitle": "Fino Payments Bank",
+        "frontDesc": "Indian digital-first bank providing branchless banking & payment services.",
+        "tech": [
+          "Drupal",
+          "Ajax",
+          "Twig",
+          "JS"
+        ],
+        "backTitle": "Fino Payments Bank",
+        "backDesc": "Oversaw integration workflows, communicated progress with stakeholders, and managed sprint cycles for digital banking platform.",
+        "link": {
+          "type": "live",
+          "label": "Live Site",
+          "href": "https://www.finobank.com",
+          "icon": "fas fa-external-link-alt"
+        }
+      },
+      {
+        "category": "live",
+        "frontIcon": "fas fa-network-wired",
+        "frontTitle": "Fintranet",
+        "frontDesc": "Internal HRMS portal for Finobank managing employee info & workflows.",
+        "tech": [
+          "Drupal",
+          "PHP",
+          "jQuery",
+          "Ajax"
+        ],
+        "backTitle": "Fintranet",
+        "backDesc": "Managed backend delivery, coordinated team tasks, and ensured timely module deployments for the internal HRMS platform.",
+        "link": {
+          "type": "status",
+          "label": "Under Development",
+          "href": "",
+          "icon": "fas fa-cog fa-spin"
+        }
+      },
+      {
+        "category": "college",
+        "frontIcon": "fas fa-graduation-cap",
+        "frontTitle": "VidyaVista",
+        "frontDesc": "University project sharing platform for students and educators.",
+        "tech": [
+          "Full Stack",
+          "Web App"
+        ],
+        "backTitle": "VidyaVista",
+        "backDesc": "Built a collaborative platform for university students to share and discover academic projects.",
+        "link": {
+          "type": "github",
+          "label": "GitHub",
+          "href": "https://github.com/deepak0075423",
+          "icon": "fab fa-github"
+        }
+      },
+      {
+        "category": "college",
+        "frontIcon": "fas fa-comments",
+        "frontTitle": "ChirpChat",
+        "frontDesc": "Real-time social media application with live messaging.",
+        "tech": [
+          "Real-time",
+          "Social"
+        ],
+        "backTitle": "ChirpChat",
+        "backDesc": "Developed a real-time social media application with instant messaging and interactive features.",
+        "link": {
+          "type": "github",
+          "label": "GitHub",
+          "href": "https://github.com/deepak0075423",
+          "icon": "fab fa-github"
+        }
+      },
+      {
+        "category": "college",
+        "frontIcon": "fas fa-robot",
+        "frontTitle": "AI Chatbot",
+        "frontDesc": "Python/Streamlit-powered intelligent website assistant.",
+        "tech": [
+          "Python",
+          "Streamlit",
+          "AI"
+        ],
+        "backTitle": "AI Chatbot",
+        "backDesc": "Created an AI-powered chatbot using Python and Streamlit for intelligent website assistance.",
+        "link": {
+          "type": "github",
+          "label": "GitHub",
+          "href": "https://github.com/deepak0075423",
+          "icon": "fab fa-github"
+        }
+      }
+    ]
+  },
+  "casestudies": {
+    "number": "04.",
+    "title": "Architecture & Case Studies",
+    "subtitle": "Deep dives into key projects — challenges, architecture decisions, and impact.",
+    "cards": [
+      {
+        "icon": "fas fa-university",
+        "title": "Fino Payments Bank",
+        "tag": "Digital Banking Platform",
+        "challenge": "Build and manage both internal (Fintranet HRMS) and external (finobank.com) digital platforms for a national payments bank with strict compliance requirements.",
+        "architecture": [
+          "Drupal CMS",
+          "Custom Modules",
+          "REST APIs",
+          "Python Services"
+        ],
+        "impact": [
+          "Led sprint planning across 2 concurrent platforms",
+          "Built custom Drupal modules for internal workflows",
+          "Reduced deployment time by streamlining CI/CD processes",
+          "Coordinated cross-functional teams for Python integration"
+        ],
+        "tech": [
+          "Drupal",
+          "PHP",
+          "Python",
+          "JavaScript",
+          "MySQL",
+          "Git"
+        ]
+      },
+      {
+        "icon": "fas fa-globe",
+        "title": "HCLTech & HCL Foundation",
+        "tag": "Enterprise Web Platforms",
+        "challenge": "Manage multiple high-traffic enterprise websites requiring scalable architecture, content management, and SEO optimization for a Fortune 500 company.",
+        "architecture": [
+          "LEMP Stack",
+          "Drupal 10",
+          "Twig Templates",
+          "Ajax Frontend"
+        ],
+        "impact": [
+          "Led redesign improving scalability for HCL Foundation",
+          "Managed backend deliverables across 3+ concurrent projects",
+          "Integrated Python modules for data processing features",
+          "Aligned development sprints with quarterly milestones"
+        ],
+        "tech": [
+          "Drupal",
+          "LEMP",
+          "Ajax",
+          "Twig",
+          "Python",
+          "jQuery"
+        ]
+      },
+      {
+        "icon": "fas fa-car",
+        "title": "Carrohub",
+        "tag": "International Marketplace",
+        "challenge": "Develop a car transaction marketplace for the Dubai market with vehicle inspection workflows, real-time pricing, and multi-language support.",
+        "architecture": [
+          "Drupal CMS",
+          "Custom Entities",
+          "jQuery/Ajax",
+          "Dynamic UI"
+        ],
+        "impact": [
+          "Coordinated with remote teams across time zones",
+          "Built dynamic vehicle listing and search features",
+          "Ensured seamless feature deployment to production",
+          "Delivered on aggressive timelines with zero downtime"
+        ],
+        "tech": [
+          "Drupal",
+          "Ajax",
+          "jQuery",
+          "CSS",
+          "PHP"
+        ]
+      }
+    ]
+  },
+  "experience": {
+    "number": "05.",
+    "title": "Experience",
+    "items": [
+      {
+        "role": "Software Developer",
+        "company": "Giglabz",
+        "date": "Jul 2025 - Present",
+        "location": "Mumbai",
+        "details": [
+          "Leading planning and execution of Finobank's internal (Fintranet) and external websites",
+          "Managing timelines, sprints, and deliverables for backend and full-stack development",
+          "Built and optimized custom Drupal modules and themes for Finobank's internal workflows",
+          "Coordinating with cross-functional teams for Python-based feature integration",
+          "Conducting risk assessments and implementing mitigation strategies"
+        ],
+        "tags": [
+          "Drupal",
+          "PHP",
+          "Python",
+          "JavaScript",
+          "Git"
+        ]
+      },
+      {
+        "role": "Software Developer",
+        "company": "Innoraft Solutions",
+        "date": "Jan 2023 - May 2025",
+        "location": "Kolkata",
+        "details": [
+          "Managed backend deliverables for HCLTech, HCL Foundation, and Carrohub",
+          "Planned development sprints and aligned teams toward project milestones",
+          "Built full-stack applications using the LEMP stack with strong project ownership",
+          "Led redesign and scalability improvements for HCL Foundation website",
+          "Integrated Python modules across multiple client projects with smooth deployment"
+        ],
+        "tags": [
+          "Drupal",
+          "LEMP Stack",
+          "Python",
+          "Ajax",
+          "Twig"
+        ]
+      }
+    ]
+  },
+  "certifications": {
+    "number": "06.",
+    "title": "Certifications & Awards",
+    "cards": [
+      {
+        "ribbon": {
+          "text": "Patent",
+          "variant": ""
+        },
+        "icon": "fas fa-scroll",
+        "title": "ML-Based Traffic Management",
+        "desc": "Machine Learning Based Intelligent Traffic Management System and its Method",
+        "meta": [
+          {
+            "icon": "fas fa-building",
+            "text": "Indian Patent Office"
+          },
+          {
+            "icon": "fas fa-calendar-alt",
+            "text": "Published"
+          }
+        ]
+      },
+      {
+        "ribbon": {
+          "text": "Patent",
+          "variant": ""
+        },
+        "icon": "fas fa-scroll",
+        "title": "Driver Assistance System",
+        "desc": "System for Maintaining Traffic Rules for Assisting the Drivers",
+        "meta": [
+          {
+            "icon": "fas fa-building",
+            "text": "Indian Patent Office"
+          },
+          {
+            "icon": "fas fa-calendar-alt",
+            "text": "Published"
+          }
+        ]
+      },
+      {
+        "ribbon": {
+          "text": "Publication",
+          "variant": ""
+        },
+        "icon": "fas fa-newspaper",
+        "title": "Research Papers",
+        "desc": "Published prototypes 'TechDoc' and 'Our Indian Shop' in IJMTST journal",
+        "meta": [
+          {
+            "icon": "fas fa-book",
+            "text": "IJMTST Journal"
+          },
+          {
+            "icon": "fas fa-calendar-alt",
+            "text": "Published"
+          }
+        ]
+      },
+      {
+        "ribbon": {
+          "text": "1st Place",
+          "variant": "gold"
+        },
+        "icon": "fas fa-trophy",
+        "title": "Samatva Hackathon",
+        "desc": "Secured 1st position in Intercollege Hackathon Samatva 2021",
+        "meta": [
+          {
+            "icon": "fas fa-university",
+            "text": "Intercollege"
+          },
+          {
+            "icon": "fas fa-calendar-alt",
+            "text": "2021"
+          }
+        ]
+      },
+      {
+        "ribbon": {
+          "text": "Finalist",
+          "variant": ""
+        },
+        "icon": "fas fa-medal",
+        "title": "MHRD IIC Innovation",
+        "desc": "Reached final round of MHRD IIC Innovation Contest & JIS Innovation Award",
+        "meta": [
+          {
+            "icon": "fas fa-award",
+            "text": "MHRD"
+          },
+          {
+            "icon": "fas fa-calendar-alt",
+            "text": "2020"
+          }
+        ]
+      },
+      {
+        "ribbon": {
+          "text": "Semi-Finalist",
+          "variant": ""
+        },
+        "icon": "fas fa-award",
+        "title": "Smart India Hackathon",
+        "desc": "Qualified the semi-finals in SIH (Smart India Hackathon) 2020",
+        "meta": [
+          {
+            "icon": "fas fa-flag",
+            "text": "National Level"
+          },
+          {
+            "icon": "fas fa-calendar-alt",
+            "text": "2020"
+          }
+        ]
+      }
+    ]
+  },
+  "blog": {
+    "number": "07.",
+    "title": "Blog",
+    "subtitle": "Thoughts on web development, architecture patterns, and industry practices.",
+    "posts": [
+      {
+        "icon": "fab fa-drupal",
+        "category": "Drupal",
+        "date": "Jan 2026",
+        "title": "Building Custom Drupal Modules: A Practical Guide",
+        "excerpt": "How I approach building custom modules for enterprise clients, from planning to deployment, with real-world examples from HCLTech.",
+        "href": "#"
+      },
+      {
+        "icon": "fas fa-sitemap",
+        "category": "Architecture",
+        "date": "Dec 2025",
+        "title": "LEMP Stack Architecture for Enterprise CMS",
+        "excerpt": "Deep dive into designing scalable LEMP stack architectures for high-traffic Drupal websites serving enterprise clients.",
+        "href": "#"
+      },
+      {
+        "icon": "fas fa-tasks",
+        "category": "Agile",
+        "date": "Nov 2025",
+        "title": "Agile Sprint Planning for Web Development Teams",
+        "excerpt": "Lessons learned from managing sprints across multiple concurrent projects in fast-paced delivery environments.",
+        "href": "#"
+      }
+    ]
+  },
+  "github": {
+    "enabled": true,
+    "number": "08.",
+    "title": "GitHub",
+    "username": "deepak0075423",
+    "tagline": "Software Developer | Drupal Expert | Full-Stack Developer",
+    "profileUrl": "https://github.com/deepak0075423",
+    "stats": [
+      {
+        "icon": "fas fa-book",
+        "value": "10+",
+        "label": "Repositories"
+      },
+      {
+        "icon": "fas fa-code-branch",
+        "value": "200+",
+        "label": "Contributions"
+      },
+      {
+        "icon": "fas fa-star",
+        "value": "5+",
+        "label": "Stars"
+      }
+    ],
+    "pinned": [
+      {
+        "href": "https://github.com/deepak0075423",
+        "icon": "fas fa-book",
+        "name": "VidyaVista",
+        "desc": "University project sharing platform for students and educators",
+        "lang": {
+          "name": "PHP",
+          "class": "php"
+        },
+        "stars": "2"
+      },
+      {
+        "href": "https://github.com/deepak0075423",
+        "icon": "fas fa-book",
+        "name": "ChirpChat",
+        "desc": "Real-time social media application with live messaging features",
+        "lang": {
+          "name": "JavaScript",
+          "class": "js"
+        },
+        "stars": "1"
+      },
+      {
+        "href": "https://github.com/deepak0075423",
+        "icon": "fas fa-book",
+        "name": "AI-Chatbot",
+        "desc": "Python/Streamlit-powered intelligent website assistant",
+        "lang": {
+          "name": "Python",
+          "class": "python"
+        },
+        "stars": "3"
+      },
+      {
+        "href": "https://github.com/deepak0075423",
+        "icon": "fas fa-book",
+        "name": "portfolio",
+        "desc": "Personal 3D portfolio website with Three.js and GSAP animations",
+        "lang": {
+          "name": "HTML",
+          "class": "html"
+        },
+        "stars": "1"
+      }
+    ]
+  },
+  "contact": {
+    "number": "09.",
+    "title": "Get In Touch",
+    "description": "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!",
+    "details": [
+      {
+        "icon": "fas fa-envelope",
+        "label": "Email",
+        "value": "ppdd5423@gmail.com",
+        "href": "mailto:ppdd5423@gmail.com"
+      },
+      {
+        "icon": "fas fa-phone",
+        "label": "Phone",
+        "value": "+91 7595963707",
+        "href": "tel:+917595963707"
+      },
+      {
+        "icon": "fas fa-map-marker-alt",
+        "label": "Location",
+        "value": "Mumbai, India",
+        "href": ""
+      }
+    ],
+    "socials": [
+      {
+        "href": "https://www.linkedin.com/in/deepak-pandey-51735b213",
+        "label": "LinkedIn",
+        "icon": "fab fa-linkedin-in"
+      },
+      {
+        "href": "https://github.com/deepak0075423",
+        "label": "GitHub",
+        "icon": "fab fa-github"
+      },
+      {
+        "href": "https://www.drupal.org/u/deepak5423",
+        "label": "Drupal",
+        "icon": "fab fa-drupal"
+      },
+      {
+        "href": "https://www.instagram.com/",
+        "label": "Instagram",
+        "icon": "fab fa-instagram"
+      }
+    ],
+    "form": {
+      "nameLabel": "Your Name",
+      "emailLabel": "Your Email",
+      "subjectLabel": "Subject",
+      "messageLabel": "Message",
+      "buttonLabel": "Send Message"
+    }
+  },
+  "footer": {
+    "logoText": "&lt;DP/&gt;",
+    "line1": "Designed & Built by Deepak Pandey",
+    "links": [
+      {
+        "href": "https://www.linkedin.com/in/deepak-pandey-51735b213",
+        "icon": "fab fa-linkedin-in",
+        "label": "LinkedIn"
+      },
+      {
+        "href": "https://github.com/deepak0075423",
+        "icon": "fab fa-github",
+        "label": "GitHub"
+      },
+      {
+        "href": "https://www.drupal.org/u/deepak5423",
+        "icon": "fab fa-drupal",
+        "label": "Drupal"
+      }
+    ]
+  }
+}

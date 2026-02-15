@@ -1,0 +1,9 @@
+node_modules/
+.env
+.sessions/
+data/users.json
+data/submissions.json
+
+# OS / Editor
+.DS_Store
+.vscode/

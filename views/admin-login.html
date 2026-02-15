@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/admin.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    body { cursor: auto; }
+    a, button, input, textarea { cursor: auto; }
+    .cursor, .cursor-follower, #bg-canvas { display: none !important; }
+    main { min-height: 100vh; display: flex; align-items: center; }
+    .admin-card {
+      max-width: 520px;
+      margin: 0 auto;
+      width: 100%;
+      background: rgba(26, 26, 46, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 34px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .admin-card h1 { font-size: 1.6rem; margin-bottom: 6px; }
+    .admin-card p { color: #a1a1aa; margin-bottom: 18px; line-height: 1.7; }
+    .admin-alert {
+      margin: 12px 0 18px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      color: #e4e4e7;
+      font-size: 0.92rem;
+    }
+    .admin-error {
+      margin: 12px 0 18px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #e4e4e7;
+      font-size: 0.92rem;
+    }
+    .admin-form { display: grid; gap: 18px; }
+    .admin-form label { display: block; font-size: 0.85rem; color: #a1a1aa; margin-bottom: 8px; letter-spacing: .5px; }
+    .admin-form input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(10,10,15,0.35);
+      color: #e4e4e7;
+      outline: none;
+    }
+    .admin-form input:focus { border-color: rgba(0, 212, 255, 0.4); box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.12); }
+    .admin-actions { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .admin-actions .btn { cursor: pointer; }
+    .admin-muted { font-size: 0.85rem; color: #71717a; }
+    .admin-muted code { font-family: 'Fira Code', monospace; color: #00d4ff; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="section-container" style="padding-top: 80px; padding-bottom: 80px;">
+      <div class="admin-card">
+        <h1>Admin Login</h1>
+        <p>Sign in to edit the website content stored in <code>data/site.json</code>.</p>
+
+        <% if (missingUsers) { %>
+          <div class="admin-alert">
+            No admin user found. Create one locally with:
+            <div style="margin-top:10px;"><code>npm run create-admin -- admin YourStrongPasswordHere</code></div>
+          </div>
+        <% } %>
+
+        <% if (error) { %>
+          <div class="admin-error"><%= error %></div>
+        <% } %>
+
+        <form class="admin-form" method="post" action="/admin/login" autocomplete="off">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <div>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" required />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required />
+          </div>
+
+          <div class="admin-actions">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <a class="btn btn-outline" href="/">Back to site</a>
+          </div>
+          <div class="admin-muted">Tip: set <code>SESSION_SECRET</code> and SMTP env vars before production.</div>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
