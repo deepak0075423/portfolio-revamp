@@ -8,12 +8,12 @@
   %>
   <title><%= seoSafe.title ? seoSafe.title : site.meta.title %></title>
   <meta name="description" content="<%= seoSafe.description ? seoSafe.description : '' %>" />
-  <link rel="canonical" href="<%= seoSafe.baseUrl ? (seoSafe.baseUrl + '/') : '/' %>" />
+  <link rel="canonical" href="<%= seoSafe.baseUrl ? (seoSafe.baseUrl + (seoSafe.basePath || '') + '/') : (seoSafe.basePath || '/') %>" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="<%= seoSafe.title ? seoSafe.title : '' %>" />
   <meta property="og:description" content="<%= seoSafe.description ? seoSafe.description : '' %>" />
-  <meta property="og:url" content="<%= seoSafe.baseUrl ? (seoSafe.baseUrl + '/') : '' %>" />
+  <meta property="og:url" content="<%= seoSafe.baseUrl ? (seoSafe.baseUrl + (seoSafe.basePath || '') + '/') : '' %>" />
   <% if (seoSafe.ogImage) { %>
     <meta property="og:image" content="<%= seoSafe.ogImage %>" />
   <% } %>
@@ -27,10 +27,10 @@
 
   <meta name="theme-color" content="#0a0a0f" />
 
-  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
-  <link rel="shortcut icon" href="/favicon.svg" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="icon" href="<%= asset('/favicon.svg') %>" sizes="any" type="image/svg+xml" />
+  <link rel="shortcut icon" href="<%= asset('/favicon.svg') %>" />
+  <link rel="manifest" href="<%= asset('/site.webmanifest') %>" />
+  <link rel="stylesheet" href="<%= asset('/style.css') %>" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -549,6 +549,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="/script.js"></script>
+  <script>window.__BASE_PATH__ = "<%= basePath || '' %>";</script>
+  <script src="<%= asset('/script.js') %>"></script>
 </body>
 </html>

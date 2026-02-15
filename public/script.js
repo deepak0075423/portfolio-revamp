@@ -897,7 +897,8 @@ if (contactForm) {
     submitBtn.disabled = true;
 
     try {
-      const res = await fetch('/api/contact', {
+      const base = (window.__BASE_PATH__ || '').replace(/\/$/, '');
+      const res = await fetch(`${base}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, subject, message }),

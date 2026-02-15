@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin CMS</title>
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="/admin.css" />
+  <link rel="stylesheet" href="<%= asset('/style.css') %>" />
+  <link rel="stylesheet" href="<%= asset('/admin.css') %>" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
@@ -66,17 +66,17 @@
 
       <nav class="admin-nav">
         <div class="group-title">Main</div>
-        <a class="<%= activePage === 'dashboard' ? 'active' : '' %>" href="/admin?page=dashboard">
+        <a class="<%= activePage === 'dashboard' ? 'active' : '' %>" href="<%= url('/admin') %>?page=dashboard">
           <span class="left"><i class="fas fa-gauge"></i><span class="label">Dashboard</span></span>
         </a>
-        <a class="<%= activePage === 'submissions' ? 'active' : '' %>" href="/admin?page=submissions">
+        <a class="<%= activePage === 'submissions' ? 'active' : '' %>" href="<%= url('/admin') %>?page=submissions">
           <span class="left"><i class="fas fa-inbox"></i><span class="label">Submissions</span></span>
           <span class="admin-pill"><%= counts ? counts.submissions : 0 %></span>
         </a>
 
         <div class="group-title">Content</div>
         <% contentLinks.forEach((l) => { %>
-          <a class="<%= activePage === l.id ? 'active' : '' %>" href="/admin?page=<%= l.id %>">
+          <a class="<%= activePage === l.id ? 'active' : '' %>" href="<%= url('/admin') %>?page=<%= l.id %>">
             <span class="left">
               <i class="fas <%= l.icon.startsWith('fa-') ? l.icon : ('fa-' + l.icon) %>"></i>
               <span class="label"><%= l.label %></span>
@@ -87,7 +87,7 @@
 
         <div class="group-title">Settings</div>
         <% settingsLinks.forEach((l) => { %>
-          <a class="<%= activePage === l.id ? 'active' : '' %>" href="/admin?page=<%= l.id %>">
+          <a class="<%= activePage === l.id ? 'active' : '' %>" href="<%= url('/admin') %>?page=<%= l.id %>">
             <span class="left"><i class="fas <%= l.icon.startsWith('fa-') ? l.icon : ('fa-' + l.icon) %>"></i><span class="label"><%= l.label %></span></span>
           </a>
         <% }) %>
@@ -102,8 +102,8 @@
         </div>
 
         <div class="admin-actions">
-          <a class="btn btn-outline" href="/" target="_blank">View Site</a>
-          <form method="post" action="/admin/logout" style="margin:0;">
+          <a class="btn btn-outline" href="<%= url('/') %>" target="_blank">View Site</a>
+          <form method="post" action="<%= url('/admin/logout') %>" style="margin:0;">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <button type="submit" class="btn btn-outline">Logout</button>
           </form>
@@ -137,7 +137,7 @@
           <div class="admin-panel">
             <div class="admin-row">
               <h2 style="margin:0;">Recent Submissions</h2>
-              <a class="btn btn-outline btn-sm" href="/admin?page=submissions">View All</a>
+              <a class="btn btn-outline btn-sm" href="<%= url('/admin') %>?page=submissions">View All</a>
             </div>
 
             <table class="admin-table" aria-label="Recent submissions">
@@ -156,7 +156,7 @@
                 <% } else { %>
                   <% recentSubmissions.forEach((s) => { %>
                     <tr>
-                      <td><a href="/admin?page=submissions&view=<%= s.id %>"><%= s.name %></a></td>
+                      <td><a href="<%= url('/admin') %>?page=submissions&view=<%= s.id %>"><%= s.name %></a></td>
                       <td><%= s.email %></td>
                       <td><%= s.subject %></td>
                       <td><%= s.status || 'unknown' %></td>
@@ -188,7 +188,7 @@
                 <% } else { %>
                   <% submissions.forEach((s) => { %>
                     <tr>
-                      <td><a href="/admin?page=submissions&view=<%= s.id %>"><%= s.name %></a></td>
+                      <td><a href="<%= url('/admin') %>?page=submissions&view=<%= s.id %>"><%= s.name %></a></td>
                       <td><%= s.email %></td>
                       <td><%= s.subject %></td>
                       <td><%= s.status || 'unknown' %></td>
@@ -211,7 +211,7 @@
                   <div><strong>Status:</strong> <%= selectedSubmission.status || 'unknown' %></div>
                   <div><strong>Date:</strong> <%= selectedSubmission.createdAt ? new Date(selectedSubmission.createdAt).toLocaleString() : '' %></div>
                 </div>
-                <a class="btn btn-outline btn-sm" href="/admin?page=submissions">Close</a>
+                <a class="btn btn-outline btn-sm" href="<%= url('/admin') %>?page=submissions">Close</a>
               </div>
 	              <div style="margin-top:12px;" class="admin-pre"><%= selectedSubmission.message %></div>
 	            </div>
@@ -228,10 +228,10 @@
 	          <div class="admin-panel">
 	            <div class="admin-row">
 	              <h2 style="margin:0;">Hero Section</h2>
-	              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+	              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 	            </div>
 
-	            <form class="admin-form" method="post" action="/admin/hero">
+	            <form class="admin-form" method="post" action="<%= url('/admin/hero') %>">
 	              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 	              <div class="admin-row">
@@ -290,7 +290,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=hero">Cancel</a>
+	                <a class="btn btn-outline" href="<%= url('/admin') %>?page=hero">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -306,10 +306,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">About</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/about">
+		            <form class="admin-form" method="post" action="<%= url('/admin/about') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -411,7 +411,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=about">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=about">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -425,10 +425,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Tech Stack</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/techstack">
+		            <form class="admin-form" method="post" action="<%= url('/admin/techstack') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -505,7 +505,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=techstack">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=techstack">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -519,10 +519,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Projects</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/projects">
+		            <form class="admin-form" method="post" action="<%= url('/admin/projects') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -671,7 +671,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=projects">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=projects">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -684,10 +684,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Case Studies</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/casestudies">
+		            <form class="admin-form" method="post" action="<%= url('/admin/casestudies') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -795,7 +795,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=casestudies">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=casestudies">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -808,10 +808,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Experience</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/experience">
+		            <form class="admin-form" method="post" action="<%= url('/admin/experience') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -907,7 +907,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=experience">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=experience">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -920,10 +920,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Certifications</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/certifications">
+		            <form class="admin-form" method="post" action="<%= url('/admin/certifications') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -1027,7 +1027,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=certifications">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=certifications">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1040,10 +1040,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Blog</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/blog">
+		            <form class="admin-form" method="post" action="<%= url('/admin/blog') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -1143,7 +1143,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=blog">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=blog">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1157,10 +1157,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">GitHub</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/github">
+		            <form class="admin-form" method="post" action="<%= url('/admin/github') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -1306,7 +1306,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=github">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=github">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1321,10 +1321,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Contact</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/contact">
+		            <form class="admin-form" method="post" action="<%= url('/admin/contact') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -1452,7 +1452,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=contact">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=contact">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1465,10 +1465,10 @@
 		          <div class="admin-panel">
 		            <div class="admin-row">
 		              <h2 style="margin:0;">Footer</h2>
-		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
+		              <a class="btn btn-outline btn-sm" href="<%= url('/') %>" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/footer">
+		            <form class="admin-form" method="post" action="<%= url('/admin/footer') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-row">
@@ -1522,7 +1522,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=footer">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=footer">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1536,7 +1536,7 @@
 		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/meta">
+		            <form class="admin-form" method="post" action="<%= url('/admin/meta') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 		              <div class="admin-fields">
 		                <div class="admin-field admin-field-full">
@@ -1554,7 +1554,7 @@
 		              </div>
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=meta">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=meta">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1569,7 +1569,7 @@
 		              <a class="btn btn-outline btn-sm" href="/" target="_blank">View Site</a>
 		            </div>
 
-		            <form class="admin-form" method="post" action="/admin/nav">
+		            <form class="admin-form" method="post" action="<%= url('/admin/nav') %>">
 		              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
 		              <div class="admin-fields">
@@ -1609,7 +1609,7 @@
 
 		              <div class="admin-actions-bar">
 		                <button type="submit" class="btn btn-primary">Save Changes</button>
-		                <a class="btn btn-outline" href="/admin?page=nav">Cancel</a>
+		                <a class="btn btn-outline" href="<%= url('/admin') %>?page=nav">Cancel</a>
 		              </div>
 		            </form>
 		          </div>
@@ -1617,7 +1617,7 @@
 		          <div class="admin-panel">
 		            <h2>Site JSON (Advanced)</h2>
 		            <p class="admin-help">Homepage renders directly from <code>data/site.json</code>. Keep valid JSON.</p>
-	            <form class="admin-form" method="post" action="/admin/site">
+	            <form class="admin-form" method="post" action="<%= url('/admin/site') %>">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
               <textarea class="admin-json" name="siteJson" spellcheck="false"><%= siteJson %></textarea>
               <div class="admin-row">
@@ -1638,7 +1638,7 @@
             <h2>Edit: <%= pageTitle %></h2>
             <p class="admin-help">This editor updates <code>data/site.json</code> for just the <code><%= sectionId %></code> key.</p>
 
-            <form class="admin-form" method="post" action="/admin/section/<%= sectionId %>">
+            <form class="admin-form" method="post" action="<%= url('/admin/section') %>/<%= sectionId %>">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
               <% if (showEnabledToggle) { %>
                 <div class="admin-row">
@@ -1667,6 +1667,6 @@
       </div>
     </main>
   </div>
-  <script src="/admin.js"></script>
+  <script src="<%= asset('/admin.js') %>"></script>
 </body>
 </html>

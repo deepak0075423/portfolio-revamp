@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Login</title>
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="/admin.css" />
+  <link rel="stylesheet" href="<%= asset('/style.css') %>" />
+  <link rel="stylesheet" href="<%= asset('/admin.css') %>" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -80,7 +80,7 @@
           <div class="admin-error"><%= error %></div>
         <% } %>
 
-        <form class="admin-form" method="post" action="/admin/login" autocomplete="off">
+        <form class="admin-form" method="post" action="<%= url('/admin/login') %>" autocomplete="off">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div>
             <label for="username">Username</label>
@@ -93,7 +93,7 @@
 
           <div class="admin-actions">
             <button type="submit" class="btn btn-primary">Sign In</button>
-            <a class="btn btn-outline" href="/">Back to site</a>
+            <a class="btn btn-outline" href="<%= url('/') %>">Back to site</a>
           </div>
           <div class="admin-muted">Tip: set <code>SESSION_SECRET</code> and SMTP env vars before production.</div>
         </form>

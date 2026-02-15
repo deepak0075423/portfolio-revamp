@@ -18,6 +18,23 @@ app.disable('x-powered-by');
 
 const PORT = Number(process.env.PORT || 3000);
 const IS_PROD = process.env.NODE_ENV === 'production';
+const PUBLIC_BASE_PATH = String(process.env.PUBLIC_BASE_PATH || '').trim();
+
+function normalizeBasePath(basePath) {
+  const raw = String(basePath || '').trim();
+  if (!raw || raw === '/') return '';
+  let p = raw.startsWith('/') ? raw : `/${raw}`;
+  if (p.endsWith('/')) p = p.slice(0, -1);
+  return p;
+}
+
+const BASE_PATH = normalizeBasePath(PUBLIC_BASE_PATH);
+
+function withBasePath(p) {
+  const pathPart = String(p || '');
+  if (!BASE_PATH) return pathPart;
+  return `${BASE_PATH}${pathPart.startsWith('/') ? '' : '/'}${pathPart}`;
+}
 
 const DATA_DIR = path.join(__dirname, 'data');
 const SITE_JSON_PATH = path.join(DATA_DIR, 'site.json');
@@ -179,7 +196,17 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('views', [path.join(__dirname, 'views'), __dirname]);
 
+app.use((req, res, next) => {
+  res.locals.basePath = BASE_PATH;
+  res.locals.url = withBasePath;
+  res.locals.asset = withBasePath;
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: IS_PROD ? '7d' : 0 }));
+if (BASE_PATH) {
+  app.use(BASE_PATH, express.static(path.join(__dirname, 'public'), { maxAge: IS_PROD ? '7d' : 0 }));
+}
 
 app.use('/admin', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -275,7 +302,7 @@ app.get('/health', (req, res) => res.json({ ok: true }));
 app.get('/robots.txt', (req, res) => {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
   res.type('text/plain');
-  return res.send(`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml\n`);
+  return res.send(`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}${BASE_PATH}/sitemap.xml\n`);
 });
 
 app.get('/sitemap.xml', (req, res) => {
@@ -284,7 +311,7 @@ app.get('/sitemap.xml', (req, res) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     `  <url>\n` +
-    `    <loc>${baseUrl}/</loc>\n` +
+    `    <loc>${baseUrl}${BASE_PATH}/</loc>\n` +
     `    <lastmod>${now}</lastmod>\n` +
     `    <changefreq>weekly</changefreq>\n` +
     `    <priority>1.0</priority>\n` +
@@ -327,12 +354,13 @@ app.get('/', async (req, res) => {
     title: meta.title ? String(meta.title) : fullName,
     description,
     baseUrl,
+    basePath: BASE_PATH,
     ogImage: meta.ogImage ? String(meta.ogImage) : '',
     jsonLdPerson: {
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: fullName,
-      url: baseUrl,
+      url: `${baseUrl}${BASE_PATH}/`,
       jobTitle,
       sameAs,
     },
